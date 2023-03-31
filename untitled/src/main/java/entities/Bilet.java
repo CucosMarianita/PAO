@@ -1,17 +1,20 @@
 package entities;
 
 public class Bilet {
-    private String tip;
+    private String tip; // adulti, copii, pensionari, studenti, elevi
     private int pret;
     private boolean achitat;
     private String descriere;
+    private int ID_expozitie;
 
     public Bilet(){}
-    public Bilet(String tip, int pret, boolean achitat, String descriere) {
+
+    public Bilet(String tip, int pret, boolean achitat, String descriere, int ID_expozitie) {
         this.tip = tip;
         this.pret = pret;
         this.achitat = achitat;
         this.descriere = descriere;
+        this.ID_expozitie = ID_expozitie;
     }
 
     public String getTip() {
@@ -46,12 +49,21 @@ public class Bilet {
         this.descriere = descriere;
     }
 
+    public int getID_expozitie() {
+        return ID_expozitie;
+    }
+
+    public void setID_expozitie(int ID_expozitie) {
+        this.ID_expozitie = ID_expozitie;
+    }
+
     @Override
     public String toString() {
         return "Bilet: " +
                 "   Tip: " + tip + '\n' +
                 "   Pret: " + pret + '\n' +
                 "   Achitat: " + achitat + '\n' +
-                "   Descriere: " + descriere +'\n';
+                "   Descriere: " + descriere +'\n' +
+                "   *ID_expozitie: " + ID_expozitie +'\n';
     }
 }
