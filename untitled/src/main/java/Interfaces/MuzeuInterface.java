@@ -4,7 +4,7 @@ import entities.Muzeu;
 
 public interface MuzeuInterface {
 
-    public Muzeu readMuzeu();
+    public Muzeu readMuzeu(); //throws ParseException;
 
 
     public Muzeu getMuzeu();

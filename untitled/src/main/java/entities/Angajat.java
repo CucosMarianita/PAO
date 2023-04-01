@@ -1,16 +1,22 @@
 package entities;
 
-public class Angajat extends User{
-    private int CNP;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Objects;
+
+public class Angajat extends User {
+
+    private String CNP;
     private int salariu;
     private String departament;
-    private int telefon;
+    private String telefon;
     private int cod_ang;
     private int ID_ang;
+    private final LocalDate startDate = LocalDate.now();
 
     public Angajat(){}
 
-    public Angajat(String nume, String prenume, int CNP, int salariu, String departament, int telefon, int cod_ang, int ID_ang) {
+    public Angajat(String nume, String prenume, String CNP, int salariu, String departament, String telefon, int cod_ang, int ID_ang) {
         super(nume, prenume);
         this.CNP = CNP;
         this.salariu = salariu;
@@ -20,11 +26,11 @@ public class Angajat extends User{
         this.ID_ang = ID_ang;
     }
 
-    public int getCNP() {
+    public String getCNP() {
         return CNP;
     }
 
-    public void setCNP(int CNP) {
+    public void setCNP(String CNP) {
         this.CNP = CNP;
     }
 
@@ -44,11 +50,11 @@ public class Angajat extends User{
         this.departament = departament;
     }
 
-    public int getTelefon() {
+    public String getTelefon() {
         return telefon;
     }
 
-    public void setTelefon(int telefon) {
+    public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
 
@@ -65,7 +71,11 @@ public class Angajat extends User{
     }
 
     public void setID_ang(int ID_ang) {
-        this.ID_ang = ID_ang;
+    this.ID_ang = ID_ang;
+}
+
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
     @Override
@@ -74,10 +84,32 @@ public class Angajat extends User{
                 "   Nume: " + nume + '\n' +
                 "   Prenume: " + prenume + '\n' +
                 "   CNP: " + CNP + '\n' +
+                "   Start_Date: " + startDate + '\n' +
                 "   Departament: " + departament + '\n' +
                 "   Salariu: " + salariu + '\n' +
                 "   Telefon: " + telefon + '\n' +
                 "   *Cod_ang: " + cod_ang + '\n' +
                 "   *ID angajat: " + ID_ang + '\n';
+    }
+
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob)
+            return true;
+        if (ob == null || getClass() != ob.getClass())
+            return false;
+
+        Angajat angajat = (Angajat) ob;
+        return CNP.equals(angajat.CNP)
+                && nume.equals(angajat.nume)
+                && prenume.equals(angajat.prenume);
+    }
+
+
+    // override hashCode() in order to avoid using different hashCode for equal objects
+    @Override
+    public int hashCode() {
+        return Objects.hash(CNP, nume, prenume);
     }
 }

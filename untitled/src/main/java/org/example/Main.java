@@ -1,11 +1,15 @@
 package org.example;
 
-import entities.Vizitator;
+import Service.Service;
+import java.text.ParseException;
+import java.io.IOException;
+
 
 public class Main {
-    public static void main(String[] args) {
 
-        Vizitator v = new Vizitator ("vlad","andrei","679696089764","mail");;
-        System.out.println(v);
+    public static void main(String[] args) throws ParseException, IOException {
+        Service service = Service.getInstance();
+        service.meniu();
     }
+
 }
