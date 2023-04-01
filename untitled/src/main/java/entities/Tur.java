@@ -1,10 +1,17 @@
 package entities;
 
+import Service.AngajatService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Tur {
     private String descriere;
     private String durata;
     private int ID_tur;
     private int ID_ghid;
+    private final AngajatService service_angajat = AngajatService.getInstance();
 
     public Tur(){}
     public Tur(String descriere, String durata, int ID_tur, int ID_ghid) {
@@ -48,10 +55,17 @@ public class Tur {
 
     @Override
     public String toString() {
+        Map<Integer, String> lista_ghizi = service_angajat.getGhizi();
+        String ghid = "nu exista";
+        for (Map.Entry<Integer,String> g : lista_ghizi.entrySet())
+            if(g.getKey() == ID_ghid)
+                ghid = g.getValue();
+
         return "Tur: " + '\n' +
                 "   Descriere: " + descriere + '\n' +
                 "   Durata: " + durata + '\n' +
                 "   *ID_tur: " + ID_tur + '\n' +
-                "   *ID_ghid: " + ID_ghid + '\n';
+                "   *ID_ghid: " + ID_ghid + '\n' +
+                "   Nume ghid: " + ghid + '\n';
     }
 }

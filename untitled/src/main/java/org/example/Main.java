@@ -1,6 +1,8 @@
 package org.example;
 
 import Service.Service;
+import entities.Tur;
+
 import java.text.ParseException;
 import java.io.IOException;
 
@@ -11,5 +13,4 @@ public class Main {
         Service service = Service.getInstance();
         service.meniu();
     }
-
 }

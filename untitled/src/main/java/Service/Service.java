@@ -1,6 +1,7 @@
 package Service;
 
 import entities.Angajat;
+import entities.Tur;
 
 import java.text.ParseException;
 import java.util.*;
@@ -88,7 +89,8 @@ public class Service {
                 System.out.println("Urmeaza a fi implementat");
             }
             else if(option == 3){
-                System.out.println("Urmeaza a fi implementat");
+                Tur t = new Tur("tur nou","1h",1,2);
+                System.out.println(t.toString());
             }
             else if(option == 4){
                 System.out.println("Urmeaza a fi implementat");

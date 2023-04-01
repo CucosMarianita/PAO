@@ -38,13 +38,6 @@ public class AngajatService implements AngajatInterface {
     @Override
     public Angajat readAngajat() {
 
-//        private int CNP;
-//        private int salariu;
-//        private String departament;
-//        private int telefon;
-//        private int cod_ang;
-//        private int ID_ang;
-
         Scanner scanner = new Scanner(System.in);
         Angajat angajat = new Angajat();
 
@@ -88,6 +81,17 @@ public class AngajatService implements AngajatInterface {
         }
 
         return angajat;
+    }
+
+    @Override
+    public Map<Integer, String> getGhizi() {
+        Map<Integer, String> ghizi = new HashMap<Integer, String>();
+        for(Angajat ang : angajati){
+            if(ang.getDepartament().toUpperCase().equals("GHID")){
+                ghizi.put(ang.getID_ang(), ang.getNume() + " " + ang.getPrenume());
+            }
+        }
+        return ghizi;
     }
 
     @Override
