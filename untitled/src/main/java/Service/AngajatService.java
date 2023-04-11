@@ -51,16 +51,50 @@ public class AngajatService implements AngajatInterface {
         angajat.setNume(scanner.nextLine());
 
         System.out.println("CNP: ");
-        angajat.setCNP(scanner.nextLine());
+        while (true) {
+            String cnp = scanner.nextLine();
+            try {
+                Integer.parseInt(cnp);
+            } catch (NumberFormatException e) {
+                System.out.println("CNP-ul trebuie sa contina doar cifre!");
+            }
+            if (cnp.length() == 13) {
+                angajat.setCNP(cnp);
+                break;
+            } else {
+                System.out.println("CNP-ul trebuie sa aiba 13 cifre!");
+            }
+        }
 
         System.out.println("Salariu: ");
-        angajat.setSalariu(Integer.parseInt(scanner.nextLine()));
+        while(true){
+            try {
+                angajat.setSalariu(Integer.parseInt(scanner.nextLine()));
+                break;
+            } catch (NumberFormatException e){
+                System.out.println("Salariul trebuie sa fie un numar!");
+            }
+        }
 
         System.out.println("Departament: ");
         angajat.setDepartament(scanner.nextLine());
 
         System.out.println("Telefon: ");
-        angajat.setTelefon(scanner.nextLine());
+        while(true){
+            String tel = scanner.nextLine();
+            try {
+                Integer.parseInt(tel);
+            } catch (NumberFormatException e) {
+                System.out.println("Numarul de telefon trebuie sa contina doar cifre!");
+            }
+            if(tel.length() == 10){
+                angajat.setTelefon(tel);
+                break;
+            } else {
+                System.out.println("Numarul de telefon trebuie sa aiba 10 cifre!");
+            }
+        }
+
 
         System.out.println("Cod angajat: ");
         boolean cauta = true;
@@ -159,3 +193,4 @@ public class AngajatService implements AngajatInterface {
         }
     }
 }
+

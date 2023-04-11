@@ -8,8 +8,9 @@ public interface BiletInterface {
 
     public Bilet readBilet();
 
-    // in x timp
-    public List<Bilet> getBilete(int nr_luni);
+    public List<Bilet> getBilete();
+
+    public List<Bilet> getBiletePerioada(int nr_luni);
 
     public Bilet getBiletById(int index);
 

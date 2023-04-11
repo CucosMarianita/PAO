@@ -1,6 +1,7 @@
 package Service;
 
 import entities.Angajat;
+import entities.Bilet;
 import entities.Tur;
 
 import java.text.ParseException;
@@ -10,38 +11,40 @@ import java.io.IOException;
 public class Service {
 
     private final AngajatService service_angajat = AngajatService.getInstance();
+    private final BiletService service_bilet = BiletService.getInstance();
     private static Service instance;
     private Scanner scanner = new Scanner(System.in);
 
-    private Service(){}
+    private Service() {
+    }
 
-    public static Service getInstance(){
-        if(instance == null){
+    public static Service getInstance() {
+        if (instance == null) {
             instance = new Service();
         }
         return instance;
     }
 
-    public void printUserMenu(){
+    public void printUserMenu() {
         System.out.println(" 1 - Vizitator");
         System.out.println(" 2 - Angajat");
         System.out.println(" 0 - Exit");
     }
 
     public void meniu() throws IOException {
-        while(true){
+        while (true) {
             printUserMenu();
             int option;
-            while(true){
+            while (true) {
                 String line = scanner.nextLine();
                 try {
                     option = Integer.parseInt(line);
-                    if(option >= 0 && option <= 2) {
+                    if (option >= 0 && option <= 2) {
                         break;
                     } else {
                         System.out.println("Introduceti un numar intre 0 si 2");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Introduceti un numar intre 0 si 2");
                 }
             }
@@ -55,7 +58,7 @@ public class Service {
         }
     }
 
-    public void printMeniuVizitator(){
+    public void printMeniuVizitator() {
         System.out.println();
         System.out.println(" 1 - Rezervare bilet");
         System.out.println(" 2 - Afisare program muzeu");
@@ -65,43 +68,39 @@ public class Service {
 
     }
 
-    public void meniuVizitator(){
-        while(true){
+    public void meniuVizitator() {
+        while (true) {
             printMeniuVizitator();
             int option;
-            while(true){
+            while (true) {
                 String line = scanner.nextLine();
                 try {
                     option = Integer.parseInt(line);
-                    if(option >= 0 && option <=4) {
+                    if (option >= 0 && option <= 4) {
                         break;
                     } else {
                         System.out.println("Introduceti un numar intre 0 si 4");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Introduceti un numar intre 0 si 4");
                 }
             }
-            if(option == 1){
+            if (option == 1) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 2){
+            } else if (option == 2) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 3){
-                Tur t = new Tur("tur nou","1h",1,2);
+            } else if (option == 3) {
+                Tur t = new Tur("tur nou", "1h", 1, 2);
                 System.out.println(t.toString());
-            }
-            else if(option == 4){
+            } else if (option == 4) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 0){
+            } else if (option == 0) {
                 break;
             }
         }
     }
 
-    public void printMeniuAngajat(){
+    public void printMeniuAngajat() {
         System.out.println();
         System.out.println(" 1 - Afisare numar vizitatori");
         System.out.println(" 2 - Sortare exponate");
@@ -110,39 +109,36 @@ public class Service {
     }
 
     public void meniuAngajat() {
-        while(true){
+        while (true) {
             printMeniuAngajat();
             int option;
-            while(true){
+            while (true) {
                 String line = scanner.nextLine();
                 try {
                     option = Integer.parseInt(line);
-                    if(option >= 0 && option <=3) {
+                    if (option >= 0 && option <= 3) {
                         break;
                     } else {
                         System.out.println("Introduceti un numar intre 0 si 3");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Introduceti un numar intre 0 si 3");
                 }
             }
-            if(option == 1){
+            if (option == 1) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 2){
+            } else if (option == 2) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 3){
+            } else if (option == 3) {
                 meniuAdmin();
-            }
-            else if(option == 0){
+            } else if (option == 0) {
                 break;
             }
         }
     }
 
     public void meniuAdmin() {
-        while(true){
+        while (true) {
             // print Meniu Admin
             System.out.println();
             System.out.println("Ce categorie doriti sa modificati?");
@@ -155,45 +151,38 @@ public class Service {
             System.out.println(" 0 - Exit");
 
             int option;
-            while(true){
+            while (true) {
                 String line = scanner.nextLine();
                 try {
                     option = Integer.parseInt(line);
-                    if(option >= 0 && option <=6) {
+                    if (option >= 0 && option <= 6) {
                         break;
                     } else {
                         System.out.println("Introduceti un numar intre 0 si 6");
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Introduceti un numar intre 0 si 6");
                 }
             }
-            if(option == 1){
+            if (option == 1) {
                 CRUD_Angajati();
-            }
-            else if(option == 2){
+            } else if (option == 2) {
+                CRUD_Bilete();
+            } else if (option == 3) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 3){
+            } else if (option == 4) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 4){
+            } else if (option == 5) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 5){
+            } else if (option == 6) {
                 System.out.println("Urmeaza a fi implementat");
-            }
-            else if(option == 6){
-                System.out.println("Urmeaza a fi implementat");
-            }
-
-            else if(option == 0){
+            } else if (option == 0) {
                 break;
             }
         }
     }
 
-    public void printOptions(){
+    public void printOptions() {
         System.out.println();
         System.out.println(" 1 - Get All");
         System.out.println(" 2 - Get By Id");
@@ -203,8 +192,8 @@ public class Service {
         System.out.println(" 0 - Exit");
     }
 
-    public void CRUD_Angajati(){
-        while(true) {
+    public void CRUD_Angajati() {
+        while (true) {
             printOptions();
             int option;
             while (true) {
@@ -220,50 +209,49 @@ public class Service {
                     System.out.println("Introduceti un numar intre 0 si 5");
                 }
             }
-            if (option == 1) {
+            if (option == 1) {  // get all
 
-                if(service_angajat.getAngajati().size() == 0){
+                if (service_angajat.getAngajati().size() == 0) {
                     System.out.println("Nu exista angajati!");
                 }
                 for (int i = 0; i < service_angajat.getAngajati().size(); i++) {
                     System.out.println(service_angajat.getAngajati().get(i).toString());
                 }
-            }
-            else if(option == 2) {
+            } else if (option == 2) {  // get by id
 
                 int index;
-                while(true){
+                while (true) {
                     System.out.println("Introduceti id-ul angajatului: ");
                     String line = scanner.nextLine();
                     try {
                         index = Integer.parseInt(line);
                         break;
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("Introduceti un numar!");
                     }
                 }
-                if(service_angajat.getAngajati().size() == 0){
+                if (service_angajat.getAngajati().size() == 0) {
                     System.out.println("Nu exista angajati!");
                 }
                 boolean ok = false;
                 for (int i = 0; i < service_angajat.getAngajati().size(); ++i) {
-                    if(service_angajat.getAngajati().get(i).getID_ang() == index){
+                    if (service_angajat.getAngajati().get(i).getID_ang() == index) {
                         ok = true;
                         break;
                     }
                 }
-                if(ok){
+                if (ok) {
                     System.out.println(service_angajat.getAngajatById(index).toString());
                 } else {
                     System.out.println("Nu exista angajati cu acest id");
                 }
-            }
-            else if (option == 3) {
+
+            } else if (option == 3) {  // add
 
                 Angajat angajat = service_angajat.readAngajat();
                 service_angajat.addAngajat(angajat);
-            }
-            else if (option == 4) {
+
+            } else if (option == 4) {  // update
 
                 int index;
                 while (true) {
@@ -293,41 +281,161 @@ public class Service {
                 } else {
                     System.out.println("Nu exista angajati cu acest id");
                 }
-            }
-            else if(option == 5){
+            } else if (option == 5) {  // delete
 
                 int index;
-                while(true){
+                while (true) {
                     String line = scanner.nextLine();
                     try {
                         index = Integer.parseInt(line);
                         break;
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("Introduceti un numar!");
                     }
                 }
-                if(service_angajat.getAngajati().size() == 0){
+                if (service_angajat.getAngajati().size() == 0) {
                     System.out.println("Nu exista angajati!");
                 }
                 boolean ok = false;
                 for (int i = 0; i < service_angajat.getAngajati().size(); i++) {
-                    if(service_angajat.getAngajati().get(i).getID_ang() == index){
+                    if (service_angajat.getAngajati().get(i).getID_ang() == index) {
                         ok = true;
                         break;
                     }
                 }
-                if(ok){
+                if (ok) {
                     service_angajat.deleteAngajatById(index);
                 } else {
                     System.out.println("Nu exista angajati cu acest id");
                 }
-            }
-            else if (option == 0) {
+            } else if (option == 0) {  // exit
                 break;
             }
 
         }
     }
+
+    public void CRUD_Bilete() {
+        while (true) {
+            printOptions();
+            int option;
+            while (true) {
+                String line = scanner.nextLine();
+                try {
+                    option = Integer.parseInt(line);
+                    if (option >= 0 && option <= 5) {
+                        break;
+                    } else {
+                        System.out.println("Introduceti un numar intre 0 si 5");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Introduceti un numar intre 0 si 5");
+                }
+            }
+            if (option == 1) {   // get all
+
+                if (service_bilet.getBilete().size() == 0) {
+                    System.out.println("Nu exista bilete!");
+                }
+                for (int i = 0; i < service_bilet.getBilete().size(); i++) {
+                    System.out.println(service_bilet.getBilete().get(i).toString());
+                }
+            } else if (option == 2) {    // get by id
+
+                int index;
+                while (true) {
+                    System.out.println("Introduceti id-ul biletului: ");
+                    String line = scanner.nextLine();
+                    try {
+                        index = Integer.parseInt(line);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Introduceti un numar!");
+                    }
+                }
+                if (service_bilet.getBilete().size() == 0) {
+                    System.out.println("Nu exista bilete!");
+                }
+                boolean ok = false;
+                for (int i = 0; i < service_bilet.getBilete().size(); ++i) {
+                    if (service_bilet.getBilete().get(i).getID_bilet() == index) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (ok) {
+                    System.out.println(service_bilet.getBiletById(index).toString());
+                } else {
+                    System.out.println("Nu exista bilete cu acest id");
+                }
+            } else if (option == 3) {
+
+                Bilet bilet = service_bilet.readBilet();
+                service_bilet.addBilet(bilet);
+            } else if (option == 4) {
+
+                int index;
+                while (true) {
+                    System.out.println("Introduceti id-ul biletului: ");
+                    String line = scanner.nextLine();
+                    try {
+                        index = Integer.parseInt(line);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Introduceti un numar!");
+                    }
+                }
+                if (service_bilet.getBilete().size() == 0) {
+                    System.out.println("Nu exista bilete!");
+                }
+                boolean ok = false;
+                for (int i = 0; i < service_bilet.getBilete().size(); i++) {
+                    if (service_bilet.getBilete().get(i).getID_bilet() == index) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (ok) {
+                    Bilet bilet = service_bilet.readBilet();
+                    bilet.setID_bilet(index);
+                    service_bilet.updateBilet(index, bilet);
+                } else {
+                    System.out.println("Nu exista bilete cu acest id");
+                }
+            } else if (option == 5) {
+
+                int index;
+                while (true) {
+                    String line = scanner.nextLine();
+                    try {
+                        index = Integer.parseInt(line);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Introduceti un numar!");
+                    }
+                }
+                if (service_bilet.getBilete().size() == 0) {
+                    System.out.println("Nu exista bilete!");
+                }
+                boolean ok = false;
+                for (int i = 0; i < service_bilet.getBilete().size(); i++) {
+                    if (service_bilet.getBilete().get(i).getID_bilet() == index) {
+                        ok = true;
+                        break;
+                    }
+                }
+                if (ok) {
+                    service_bilet.deleteBiletById(index);
+                } else {
+                    System.out.println("Nu exista bilete cu acest id");
+                }
+            } else if (option == 0) {
+                break;
+            }
+        }
+
+    }
+
 
 
 
