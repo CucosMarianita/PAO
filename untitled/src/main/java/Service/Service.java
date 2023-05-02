@@ -285,6 +285,7 @@ public class Service {
 
                 int index;
                 while (true) {
+                    System.out.println("Introduceti id-ul biletului: ");
                     String line = scanner.nextLine();
                     try {
                         index = Integer.parseInt(line);
@@ -368,11 +369,12 @@ public class Service {
                 } else {
                     System.out.println("Nu exista bilete cu acest id");
                 }
-            } else if (option == 3) {
+            } else if (option == 3) {  // add
 
                 Bilet bilet = service_bilet.readBilet();
                 service_bilet.addBilet(bilet);
-            } else if (option == 4) {
+
+            } else if (option == 4) {  // update
 
                 int index;
                 while (true) {
@@ -402,10 +404,11 @@ public class Service {
                 } else {
                     System.out.println("Nu exista bilete cu acest id");
                 }
-            } else if (option == 5) {
+            } else if (option == 5) {  // delete
 
                 int index;
                 while (true) {
+                    System.out.println("Introduceti id-ul biletului: ");
                     String line = scanner.nextLine();
                     try {
                         index = Integer.parseInt(line);

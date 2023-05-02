@@ -1,6 +1,5 @@
 package Service;
 import Interfaces.BiletInterface;
-import entities.Angajat;
 import entities.Bilet;
 
 import java.time.LocalDate;
@@ -61,7 +60,15 @@ public class BiletService implements BiletInterface {
         }
 
         System.out.println("Achitat: ");
-        bilet.setAchitat(scanner.nextBoolean());
+        while (true) {
+            String achitat = scanner.nextLine();
+            if(achitat.equals("true") || achitat.equals("false") || achitat.equals("True") || achitat.equals("False")){
+                bilet.setAchitat(Boolean.parseBoolean(achitat));
+                break;
+            } else {
+                System.out.println("Achitat trebuie sa fie true/false!");
+            }
+        }
 
         System.out.println("Descriere: ");
         bilet.setDescriere(scanner.nextLine());

@@ -10,7 +10,7 @@ public interface MuzeuInterface {
     public Muzeu getMuzeu();
 
 
-    public void updateMuzeu(int index, Muzeu muzeu);
+    public void updateMuzeu(Muzeu muzeu);
 
     public void addMuzeu(Muzeu muzeu);
 

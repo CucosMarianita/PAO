@@ -77,7 +77,7 @@ public class Bilet {
 
     @Override
     public String toString() {
-        return "Bilet: " +
+        return "Bilet: " + '\n' +
                 "   Tip: " + tip + '\n' +
                 "   Pret: " + pret + '\n' +
                 "   Achitat: " + achitat + '\n' +
