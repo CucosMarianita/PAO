@@ -1,6 +1,7 @@
 package Service;
 import Interfaces.BiletInterface;
 import entities.Bilet;
+import entities.Expozitie;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -8,6 +9,7 @@ import java.util.*;
 public class BiletService implements BiletInterface {
 
     private List<Bilet> bilete = new ArrayList<>();
+
     private static BiletService instance;
 
 
@@ -24,7 +26,8 @@ public class BiletService implements BiletInterface {
         return instance;
     }
 
-    public int getMaxId(){
+
+    public int getMaxId_bilete(){
         int max = 0;
         for (Bilet b : bilete) {
             if (b.getID_bilet() > max) {
@@ -34,32 +37,21 @@ public class BiletService implements BiletInterface {
         return max;
     }
 
-    @Override
-    public Bilet readBilet() {
 
-        // TO DO:
-        // introduc tipul si expozitia, pretul si descrierea sunt generate automat
+    @Override
+    public Bilet readBilet() {   // Vizitator
 
         Scanner scanner = new Scanner(System.in);
         Bilet bilet = new Bilet();
 
-        int id = getMaxId() + 1;
+        int id = getMaxId_bilete() + 1;
         bilet.setID_bilet(id);
 
-        System.out.println("Tip: ");         // adulti, copii, pensionari, studenti, elevi
+        System.out.println("Tip: (copii, elevi, studenti, adulti, pensionari) ");
         bilet.setTip(scanner.nextLine());
 
-        System.out.println("Pret: ");
-        while (true) {
-            try {
-                bilet.setPret(Integer.parseInt(scanner.nextLine()));
-                break;
-            } catch (NumberFormatException e){
-                System.out.println("Pretul trebuie sa fie un numar!");
-            }
-        }
 
-        System.out.println("Achitat: ");
+        System.out.println("Ati efectuat plata?: ");
         while (true) {
             String achitat = scanner.nextLine();
             if(achitat.equals("true") || achitat.equals("false") || achitat.equals("True") || achitat.equals("False")){
@@ -70,17 +62,37 @@ public class BiletService implements BiletInterface {
             }
         }
 
-        System.out.println("Descriere: ");
-        bilet.setDescriere(scanner.nextLine());
+        // TO DO : permanente + temporare
 
-        System.out.println("ID_expozitie: ");
-        while (true) {
-            // sa verific daca este in lista de expoziitii
-            try {
-                bilet.setID_expozitie(Integer.parseInt(scanner.nextLine()));
+        System.out.println("Nume expozitie: ");
+        // sa verific daca este in lista de expozitii
+        ExpozitieService service_expotitii = ExpozitieService.getInstance();
+        List<Expozitie> expozitii = service_expotitii.getExpozitii();
+        while(true){
+            String nume = scanner.nextLine();
+            int id_expozitie = 0;
+            for(Expozitie e : expozitii){
+                if(e.getDescriere().equals(nume)){
+                    id_expozitie = e.getID_expozitie();
+                    break;
+                }
+            }
+            if(id_expozitie != 0){
+                bilet.setID_expozitie(id_expozitie);
                 break;
-            } catch (NumberFormatException e){
-                System.out.println("ID-ul trebuie sa fie un numar!");
+            } else {
+                System.out.println("Expozitia nu exista!");
+            }
+        }
+
+        // pret si descriere automata din lista de bilete existente
+        TipBiletService service_tip_bilete = TipBiletService.getInstance();
+        List<Bilet> tip_bilete_existente = service_tip_bilete.getBilete();
+        for (Bilet tip : tip_bilete_existente){
+            if(tip.getID_expozitie() == bilet.getID_expozitie() && tip.getTip().equals(bilet.getTip())){
+                bilet.setPret(tip.getPret());
+                bilet.setDescriere(tip.getDescriere());
+                break;
             }
         }
 
@@ -105,9 +117,10 @@ public class BiletService implements BiletInterface {
     public List<Bilet> getBiletePerioada(int nr_luni) {
         List<Bilet> afisare = new ArrayList<>();
         for (Bilet b : bilete) {
-            if (b.getData_achizitie().isAfter(LocalDate.now().minusMonths(nr_luni))) {
-                afisare.add(b);
-            }
+            if (b.isAchitat())
+                if (b.getData_achizitie().isAfter(LocalDate.now().minusMonths(nr_luni)))
+                    afisare.add(b);
+
         }
         return afisare;
     }

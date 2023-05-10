@@ -1,7 +1,7 @@
 package entities;
 
 public class Expozitie {
-    protected String descriere;
+    protected String descriere; // numele expozitiei
     protected int ID_expozitie;
     protected int ID_tur;
 

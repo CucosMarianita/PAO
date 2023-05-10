@@ -75,16 +75,19 @@ public class TablouService implements TablouInterface{
     public List<Tablou> getTablouri() {
         List<Tablou> tablouriCopy = new ArrayList<>();
         tablouriCopy.addAll(this.tablouri);
-        // sortare dupa stil si an
+        // sortare dupa stil si an si id
         Collections.sort(tablouriCopy, new Comparator<Tablou>() {
             @Override
             public int compare(Tablou t1, Tablou t2) {
-                if (t1.getStil().equals(t2.getStil())) {
+                if (t1.getStil().compareTo(t2.getStil()) == 0) {
+                    if (t1.getAn() == t2.getAn()) {
+                        return t1.getID_exponat() - t2.getID_exponat();
+                    }
                     return t1.getAn() - t2.getAn();
                 }
                 return t1.getStil().compareTo(t2.getStil());
             }
-        });
+        } );
         return tablouriCopy;
     }
 

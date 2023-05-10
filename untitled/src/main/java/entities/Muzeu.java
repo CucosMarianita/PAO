@@ -48,10 +48,9 @@ public class Muzeu {
 
     @Override
     public String toString() {
-        return "Muzeu: " + '\n' +
-                "   Nume: " + nume + '\n' +
-                "   Locatie: " + locatie + '\n' +
+        return  "   Muzeu: " + nume + '\n' +
                 "   Program: " + program + '\n' +
+                "   Locatie: " + locatie + '\n' +
                 "   Descriere: " + descriere + '\n';
     }
 }
