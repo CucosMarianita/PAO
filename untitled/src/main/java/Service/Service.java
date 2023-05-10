@@ -2,11 +2,13 @@ package Service;
 
 import entities.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.IOException;
 
 public class Service {
 
+    private final AuditService audit_service = AuditService.getInstance();
     private final AngajatService service_angajat = AngajatService.getInstance();
     private final BiletService service_bilet = BiletService.getInstance();
     private final TipBiletService service_tip_bilet = TipBiletService.getInstance();
@@ -94,19 +96,35 @@ public class Service {
                 }
             }
 
-            if (option == 1) {          // rezervare bilet
+            if (option == 1) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Rezervare bilet de catre vizitator" , timeStamp);
+
                 Bilet achizitie = service_bilet.readBilet();
                 service_bilet.addBilet(achizitie);
 
-            } else if (option == 2) {   // afisare program muzeu
+            } else if (option == 2) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare program muzeu" , timeStamp);
+
                 Muzeu m = service_muzeu.getMuzeu();
                 System.out.println(m.toString());
 
-            } else if (option == 3) {  // afisare tururi
+            } else if (option == 3) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare tururi" , timeStamp);
+
                 List<Tur> tururi = service_tur.getTururi();
                 System.out.println(tururi);
 
-            } else if (option == 4) {  // afisare expozitii
+            } else if (option == 4) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare expozitii" , timeStamp);
+
                 List<Expozitie> exp = service_expozitie.getExpozitii();
                 System.out.println(exp);
 
@@ -142,6 +160,10 @@ public class Service {
             }
 
             if (option == 1) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare numar vizitatori" , timeStamp);
+
                 System.out.println("Introduceti numarul de luni pentru care doriti sa afisati numarul de vizitatori");
                 int nr_luni = scanner.nextInt();
                 System.out.println("Numarul de bilete vandute in ultimele "+ nr_luni +" luni este:");
@@ -149,7 +171,11 @@ public class Service {
                 System.out.println(bilete.size());
 
             } else if (option == 2) {
-                System.out.println("Tablouri (sortare dupa stil, an si id):c");
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Sortare exponate" , timeStamp);
+
+                System.out.println("Tablouri (sortare dupa stil, an si id): ");
                 System.out.println(service_tablou.getTablouri());       // sortare dupa stil si an
 
                 System.out.println("Sculpturi (sortare dupa stil si id):");
@@ -273,7 +299,11 @@ public class Service {
                     System.out.println("Introduceti un numar intre 0 si 5");
                 }
             }
+
             if (option == 1) {  // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Angajati" , timeStamp);
 
                 if (service_angajat.getAngajati().size() == 0) {
                     System.out.println("Nu exista angajati!");
@@ -281,7 +311,11 @@ public class Service {
                 for (int i = 0; i < service_angajat.getAngajati().size(); i++) {
                     System.out.println(service_angajat.getAngajati().get(i).toString());
                 }
+
             } else if (option == 2) {  // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Angajat" , timeStamp);
 
                 int index;
                 while (true) {
@@ -311,11 +345,17 @@ public class Service {
                 }
 
             } else if (option == 3) {  // add
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Angajat" , timeStamp);
 
                 Angajat angajat = service_angajat.readAngajat();
                 service_angajat.addAngajat(angajat);
 
             } else if (option == 4) {  // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Angajat" , timeStamp);
 
                 int index;
                 while (true) {
@@ -346,6 +386,9 @@ public class Service {
                     System.out.println("Nu exista angajati cu acest id");
                 }
             } else if (option == 5) {  // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Angajat" , timeStamp);
 
                 int index;
                 while (true) {
@@ -398,6 +441,9 @@ public class Service {
                 }
             }
             if (option == 1) {   // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Bilete" , timeStamp);
 
                 if (service_tip_bilet.getBilete().size() == 0) {
                     System.out.println("Nu exista bilete!");
@@ -406,6 +452,9 @@ public class Service {
                     System.out.println(service_tip_bilet.getBilete().get(i).toString());
                 }
             } else if (option == 2) {    // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Bilet" , timeStamp);
 
                 int index;
                 while (true) {
@@ -434,11 +483,17 @@ public class Service {
                     System.out.println("Nu exista bilete cu acest id");
                 }
             } else if (option == 3) {  // add
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Bilet" , timeStamp);
 
                 Bilet bilet = service_tip_bilet.readBilet();
                 service_tip_bilet.addBilet(bilet);
 
             } else if (option == 4) {  // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Bilet" , timeStamp);
 
                 int index;
                 while (true) {
@@ -469,6 +524,9 @@ public class Service {
                     System.out.println("Nu exista bilete cu acest id");
                 }
             } else if (option == 5) {  // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Bilet" , timeStamp);
 
                 int index;
                 while (true) {
@@ -521,6 +579,9 @@ public class Service {
                 }
             }
             if (option == 1) {   // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Tururi" , timeStamp);
 
                 if (service_tur.getTururi().size() == 0) {
                     System.out.println("Nu exista tururi!");
@@ -529,6 +590,9 @@ public class Service {
                     System.out.println(service_tur.getTururi().get(i).toString());
                 }
             } else if (option == 2) {    // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Tur" , timeStamp);
 
                 int index;
                 while (true) {
@@ -557,11 +621,17 @@ public class Service {
                     System.out.println("Nu exista tururi cu acest id");
                 }
             } else if (option == 3) {  // add
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Tur" , timeStamp);
 
                 Tur tur = service_tur.readTur();
                 service_tur.addTur(tur);
 
             } else if (option == 4) {  // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Tur" , timeStamp);
 
                 int index;
                 while (true) {
@@ -592,6 +662,9 @@ public class Service {
                     System.out.println("Nu exista tururi cu acest id");
                 }
             } else if (option == 5) {  // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Tur" , timeStamp);
 
                 int index;
                 while (true) {
@@ -643,6 +716,9 @@ public class Service {
                 }
             }
             if (option == 1) {   // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Expozitii" , timeStamp);
 
                 if (service_expozitie.getExpozitii().size() == 0) {
                     System.out.println("Nu exista expozitii!");
@@ -650,7 +726,12 @@ public class Service {
                 for (int i = 0; i < service_expozitie.getExpozitii().size(); i++) {
                     System.out.println(service_expozitie.getExpozitii().get(i).toString());
                 }
+
             } else if (option == 2) { // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Expozitie" , timeStamp);
+
                 int index;
                 while (true) {
                     System.out.println("Introduceti id-ul expozitiei: ");
@@ -679,11 +760,17 @@ public class Service {
                 }
 
             } else if (option == 3) {  // add
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Expozitie" , timeStamp);
 
                 Expozitie expozitie = service_expozitie.readExpozitie();
                 service_expozitie.addExpozitie(expozitie);
 
             } else if (option == 4) {  // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Expozitie" , timeStamp);
 
                 int index;
                 while (true) {
@@ -715,6 +802,10 @@ public class Service {
                 }
 
             } else if (option == 5) { // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Expozitie" , timeStamp);
+
                 int index;
                 while (true) {
                     System.out.println("Introduceti id-ul expozitiei: ");
@@ -765,6 +856,10 @@ public class Service {
                 }
             }
             if (option == 1){  // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Galerii" , timeStamp);
+
                 if (service_galerie.getGalerii().size() == 0) {
                     System.out.println("Nu exista galerii!");
                 }
@@ -773,6 +868,9 @@ public class Service {
                 }
 
             } else if (option == 2) { // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Galerie", timeStamp);
 
                 int index;
                 while (true) {
@@ -801,7 +899,18 @@ public class Service {
                     System.out.println("Nu exista galerii cu acest id");
                 }
 
+            }else if(option == 3){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Galerie", timeStamp);
+
+                Galerie galerie = service_galerie.readGalerie();
+                service_galerie.addGalerie(galerie);
+
             } else if (option == 4){  // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Galerie", timeStamp);
 
                 int index;
                 while (true) {
@@ -832,6 +941,9 @@ public class Service {
                     System.out.println("Nu exista galerii cu acest id");
                 }
             } else if (option == 5){  // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Galerie", timeStamp);
 
                 int index;
                 while (true) {
@@ -883,6 +995,10 @@ public class Service {
                 }
             }
             if (option == 1){   // get all
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Tablouri" , timeStamp);
+
                 if (service_tablou.getTablouri().size() == 0){
                     System.out.println("Nu exista tablouri!");
                 }
@@ -890,6 +1006,9 @@ public class Service {
                     System.out.println(service_tablou.getTablouri().get(i).toString());
                 }
             } else if (option == 2){  // get by id
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Tablou", timeStamp);
 
                 int index;
                 while (true){
@@ -919,10 +1038,17 @@ public class Service {
                 }
 
             } else if(option == 3){   // add
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Tablou", timeStamp);
+
                 Tablou tablou = service_tablou.readTablou();
                 service_tablou.addTablou(tablou);
 
             } else if (option == 4){   // update
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Tablou", timeStamp);
 
                 int index;
                 while (true){
@@ -954,6 +1080,9 @@ public class Service {
                 }
 
             } else if (option == 5){   // delete
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Tablou", timeStamp);
 
                 int index;
                 while (true){
@@ -1006,6 +1135,10 @@ public class Service {
             }
 
             if (option == 1){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Sculpturi" , timeStamp);
+
                 if (service_sculptura.getSculpturi().size() == 0){
                     System.out.println("Nu exista sculpturi!");
                 }
@@ -1014,6 +1147,10 @@ public class Service {
                 }
             }
             else if (option == 2){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Sculptura", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul sculpturii: ");
@@ -1042,10 +1179,18 @@ public class Service {
                 }
             }
             else if (option == 3){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Sculptura", timeStamp);
+
                 Sculptura sculptura = service_sculptura.readSculptura();
                 service_sculptura.addSculptura(sculptura);
             }
             else if (option == 4){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Sculptura", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul sculpturii: ");
@@ -1076,6 +1221,10 @@ public class Service {
                 }
             }
             else if (option == 5){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Sculptura", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul sculpturii: ");
@@ -1127,6 +1276,10 @@ public class Service {
             }
 
             if (option == 1){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Relicve" , timeStamp);
+
                 if(service_relicva.getRelicve().size() == 0){
                     System.out.println("Nu exista relicve!");
                 }
@@ -1135,6 +1288,10 @@ public class Service {
                 }
             }
             else if (option == 2){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Relicva", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul relicvei: ");
@@ -1163,10 +1320,18 @@ public class Service {
                 }
 
             } else if (option == 3) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Relicva", timeStamp);
+
                 Relicva relicva = service_relicva.readRelicva();
                 service_relicva.addRelicva(relicva);
 
             }else if (option == 4){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Relicva", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul relicvei: ");
@@ -1197,6 +1362,10 @@ public class Service {
                 }
 
             }else if (option == 5){
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Relicva", timeStamp);
+
                 int index;
                 while (true){
                     System.out.println("Introduceti id-ul relicvei: ");
