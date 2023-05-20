@@ -1,17 +1,26 @@
 package Service;
 
 import Interfaces.BiletInterface;
+import Service.Persistence.CRUD_Template;
+import Service.Persistence.Conn;
 import entities.Bilet;
 import entities.Expozitie;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class TipBiletService implements BiletInterface {
+public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
 
     private List<Bilet> tip_bilete_existente = new ArrayList<>();
+    private Conn connection;
     private static TipBiletService instance;
 
+    private TipBiletService(){
+        connection = new Conn();
+        tip_bilete_existente = findAll();    // (citire din db)
+    }
 
     public static TipBiletService getInstance(){
         if(instance == null){
@@ -85,7 +94,6 @@ public class TipBiletService implements BiletInterface {
         return bilet;
     }
 
-
     @Override
     public List<Bilet> getBilete() {
         List<Bilet> bileteCopy = new ArrayList<>();
@@ -123,34 +131,71 @@ public class TipBiletService implements BiletInterface {
         return bilet;
     }
 
+
     @Override
-    public void addBilet(Bilet bilet) {
-        this.tip_bilete_existente.add(bilet);
+    public void add(Bilet obj) throws SQLException {
+        this.tip_bilete_existente.add(obj);
+        String sql = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) VALUES ("+ obj.getID_bilet() + ", " + obj.getTip() + ", " +
+                obj.getPret() + ", " + obj.isAchitat() + ", " + obj.getDescriere() + ", " + obj.getData_achizitie() + ", " + obj.getID_expozitie() + ")";
+        connection.getS().executeUpdate(sql);
     }
 
     @Override
-    public void updateBilet(int index, Bilet bilet) {
-        for (int i = 0; i < this.tip_bilete_existente.size(); i++) {
-            if (this.tip_bilete_existente.get(i).getID_bilet() == index) {
-                this.tip_bilete_existente.remove(i);
-                this.tip_bilete_existente.add(i, bilet);
-                break;
+    public List<Bilet> findAll() {
+        try {
+            String sql = "SELECT * FROM bilet";
+            ResultSet rs = connection.getS().executeQuery(sql);
+            List<Bilet> bilete = new ArrayList<>();
+
+            while(rs.next()){
+                Bilet bilet = new Bilet();
+                bilet.setID_bilet(rs.getInt("ID_bilet"));
+                bilet.setTip(rs.getString("tip"));
+                bilet.setPret(rs.getInt("pret"));
+                bilet.setAchitat(rs.getBoolean("achitat"));
+                bilet.setDescriere(rs.getString("descriere"));
+                bilet.setData_achizitie(rs.getDate("data_achizitie").toLocalDate());
+                bilet.setID_expozitie(rs.getInt("ID_expozitie"));
+                bilete.add(bilet);
             }
+            rs.close();
+            return bilete;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public void deleteBiletById(int index) {
+    public void update(Bilet obj) {
+        this.tip_bilete_existente.set(obj.getID_bilet(), obj);
+        try{
+            String update = "UPDATE bilet SET tip = " + obj.getTip() + ", pret = " + obj.getPret() + ", achitat = " + obj.isAchitat() + ", descriere = " + obj.getDescriere() +
+                    ", data_achizitie = " + obj.getData_achizitie() + ", ID_expozitie = " + obj.getID_expozitie() +
+                    " WHERE ID_bilet = " + obj.getID_bilet();
+            connection.getS().execute(update);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int index) {
         for (int i = 0; i < this.tip_bilete_existente.size(); i++) {
             if (this.tip_bilete_existente.get(i).getID_bilet() == index) {
                 this.tip_bilete_existente.remove(i);
                 break;
             }
         }
+        try{
+            String delete = "DELETE FROM bilet WHERE ID_bilet = " + index;
+            connection.getS().execute(delete);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void deleteBilet(Bilet bilet) {
-        this.tip_bilete_existente.remove(bilet);
-    }
 }

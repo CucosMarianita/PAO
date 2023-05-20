@@ -1,17 +1,27 @@
 package Service;
 
 import Interfaces.ExpozitieInterface;
+import Service.Persistence.CRUD_Template;
+import Service.Persistence.Conn;
 import entities.Expozitie;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class ExpozitieService implements ExpozitieInterface {
+public class ExpozitieService implements ExpozitieInterface, CRUD_Template<Expozitie> {
 
     private List<Expozitie> expozitii = new ArrayList<>();
+    private Conn connection;
     private static ExpozitieService instance;
 
+    private ExpozitieService(){
+        connection = new Conn();
+        expozitii = findAll();    // (citire din db)
+    }
 
     public static ExpozitieService getInstance(){
         if(instance == null){
@@ -75,34 +85,65 @@ public class ExpozitieService implements ExpozitieInterface {
         return expozitie;
     }
 
-    @Override
-    public void addExpozitie(Expozitie expozitie) {
-        expozitii.add(expozitie);
-    }
 
     @Override
-    public void updateExpozitie(int index, Expozitie expozitie) {
-        for (int i = 0; i < expozitii.size(); i++) {
-            if (expozitii.get(i).getID_expozitie() == index) {
-                expozitii.remove(i);
-                expozitii.add(i, expozitie);
-                break;
+    public List<Expozitie> findAll() {
+        try{
+            String select = "SELECT * FROM expozitie";
+            ResultSet rs = connection.getS().executeQuery(select);
+
+            List<Expozitie> expozitii = new ArrayList<>();
+
+            while(rs.next()){
+                Expozitie expozitie = new Expozitie();
+                expozitie.setID_expozitie(rs.getInt("ID_expozitie"));
+                expozitie.setDescriere(rs.getString("descriere"));
+                expozitie.setID_tur(rs.getInt("ID_tur"));
+                expozitii.add(expozitie);
             }
+            rs.close();
+
+            return expozitii;
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public void deleteExpozitieById(int index) {
+    public void add(Expozitie obj) throws SQLException {
+        this.expozitii.add(obj);
+
+        String insert = "INSERT INTO expozitie (ID_expozitie, descriere, ID_tur) VALUES (" + obj.getID_expozitie() + ", " + obj.getDescriere() + ", " + obj.getID_tur() + ")";
+        connection.getS().execute(insert);
+    }
+
+    @Override
+    public void update(Expozitie obj) {
+        this.expozitii.set(obj.getID_expozitie(), obj);
+        try{
+            connection.getS().execute("UPDATE expozitie SET descriere = '" + obj.getDescriere() + "', ID_tur = " + obj.getID_tur() +
+                                    " WHERE ID_expozitie = " + obj.getID_expozitie() );
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int index) {
         for (int i = 0; i < expozitii.size(); i++) {
             if (expozitii.get(i).getID_expozitie() == index) {
                 expozitii.remove(i);
                 break;
             }
         }
-    }
-
-    @Override
-    public void deleteExpozitie(Expozitie expozitie) {
-        expozitii.remove(expozitie);
+        try{
+            connection.getS().execute("DELETE FROM expozitie WHERE ID_expozitie = " + index);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

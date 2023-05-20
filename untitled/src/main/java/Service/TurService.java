@@ -1,15 +1,24 @@
 package Service;
 
+import Service.Persistence.CRUD_Template;
 import entities.Tur;
 import Interfaces.TurInterface;
+import Service.Persistence.Conn;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-public class TurService implements TurInterface{
+public class TurService implements TurInterface, CRUD_Template<Tur> {
 
-    private final List<Tur> tururi = new ArrayList<>();
+    private List<Tur> tururi = new ArrayList<>();
+    private Conn connection;
     private static TurService instance;
 
+    private TurService(){
+        connection = new Conn();
+        tururi = findAll();    // (citire din db)
+    }
 
     public static TurService getInstance(){
         if(instance == null){
@@ -76,33 +85,61 @@ public class TurService implements TurInterface{
     }
 
     @Override
-    public void addTur(Tur tur) {
-        this.tururi.add(tur);
+    public void add(Tur obj) throws SQLException {
+        this.tururi.add(obj);
+        connection.getS().execute("INSERT INTO tur (ID_tur, durata, descriere, ID_ghid) VALUES (" + obj.getID_tur() + ", " + obj.getDurata() + ", " + obj.getDescriere() + ", " + obj.getID_ghid() + ")");
     }
 
     @Override
-    public void updateTur(int index, Tur tur) {
-        for (int i = 0; i < this.tururi.size(); i++) {
-            if (this.tururi.get(i).getID_tur() == index) {
-                this.tururi.remove(i);
-                this.tururi.add(i, tur);
-                break;
+    public List<Tur> findAll() {
+        try{
+            String sql = "SELECT * FROM tur";
+            ResultSet rs = connection.getS().executeQuery(sql);
+            List<Tur> tururi = new ArrayList<>();
+
+            while (rs.next()) {
+                Tur tur = new Tur();
+                tur.setID_tur(rs.getInt("ID_tur"));
+                tur.setDurata(rs.getString("durata"));
+                tur.setDescriere(rs.getString("descriere"));
+                tur.setID_ghid(rs.getInt("ID_ghid"));
+                tururi.add(tur);
             }
+            rs.close();
+
+            return tururi;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public void deleteTurById(int index) {
+    public void update(Tur obj) {
+        this.tururi.set(obj.getID_tur(), obj);
+        try{
+            connection.getS().execute("UPDATE tur SET durata = " + obj.getDurata() + ", descriere = " + obj.getDescriere() + ", ID_ghid = " + obj.getID_ghid() +
+                                    " WHERE ID_tur = " + obj.getID_tur());
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int index) {
         for (int i = 0; i < this.tururi.size(); i++) {
             if (this.tururi.get(i).getID_tur() == index) {
                 this.tururi.remove(i);
                 break;
             }
         }
-    }
+        try{
+            connection.getS().execute("DELETE FROM tur WHERE ID_tur = " + index);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-    @Override
-    public void deleteTur(Tur tur) {
-        this.tururi.remove(tur);
     }
 }

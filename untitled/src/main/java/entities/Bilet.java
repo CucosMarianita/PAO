@@ -9,9 +9,12 @@ public class Bilet {
     private boolean achitat;
     private String descriere;
     private int ID_expozitie;
-    private final LocalDate data_achizitie = LocalDate.now();
+    private LocalDate data_achizitie;
 
-    public Bilet(){}
+
+    public Bilet(){
+        this.data_achizitie = LocalDate.now();
+    }
 
     public Bilet (int ID_bilet, String tip, int pret, boolean achitat, String descriere, int ID_expozitie){
         this.ID_bilet = ID_bilet;
@@ -20,6 +23,7 @@ public class Bilet {
         this.achitat = achitat;
         this.descriere = descriere;
         this.ID_expozitie = ID_expozitie;
+        this.data_achizitie = LocalDate.now();
     }
 
 
@@ -65,6 +69,10 @@ public class Bilet {
 
     public void setDescriere(String descriere) {
         this.descriere = descriere;
+    }
+
+    public void setData_achizitie(LocalDate data_achizitie) {
+        this.data_achizitie = data_achizitie;
     }
 
     public int getID_expozitie() {

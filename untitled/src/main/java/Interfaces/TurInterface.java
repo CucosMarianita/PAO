@@ -14,12 +14,4 @@ public interface TurInterface {
     public Tur getTurById(int index);
 
 
-    // CRUD
-    public void addTur(Tur tur);
-
-    public void updateTur(int index, Tur tur);
-
-    public void deleteTurById(int index);
-
-    public void deleteTur(Tur tur);
 }

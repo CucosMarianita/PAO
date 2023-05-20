@@ -1,15 +1,24 @@
 package Service;
 
+import Service.Persistence.CRUD_Template;
 import entities.Tablou;
 import Interfaces.TablouInterface;
+import Service.Persistence.Conn;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-public class TablouService implements TablouInterface{
+public class TablouService implements TablouInterface, CRUD_Template<Tablou> {
 
-    private final List<Tablou> tablouri = new ArrayList<>();
+    private List<Tablou> tablouri = new ArrayList<>();
+    private Conn connection;
     private static TablouService instance;
 
+    private TablouService(){
+        connection = new Conn();
+        tablouri = findAll();    // (citire din db)
+    }
 
     public static TablouService getInstance(){
         if(instance == null){
@@ -102,34 +111,73 @@ public class TablouService implements TablouInterface{
         return tablou;
     }
 
+
     @Override
-    public void addTablou(Tablou tablou) {
-        this.tablouri.add(tablou);
+    public void add(Tablou obj) throws SQLException {
+        this.tablouri.add(obj);
+
+        String sql = "INSERT INTO tablou (ID_exponat, denumire, an, stil, tehnica, descriere, ID_galerie) VALUES (" + obj.getID_exponat() + ", " + obj.getDenumire() + ", "
+                + obj.getAn() + ", " + obj.getStil() + ", " + obj.getTehnica() + ", " + obj.getDescriere() + ", " + obj.getID_galerie() + ")";
+
+        connection.getS().execute(sql);
     }
 
     @Override
-    public void updateTablou(int index, Tablou tablou) {
-        for (int i = 0; i < this.tablouri.size(); i++) {
-            if (this.tablouri.get(i).getID_exponat() == index) {
-                this.tablouri.remove(i);
-                this.tablouri.add(i, tablou);
-                break;
+    public List<Tablou> findAll() {
+        try{
+            String select = "SELECT * FROM tablou";
+            ResultSet rs = connection.getS().executeQuery(select);
+            List<Tablou> tablouri = new ArrayList<>();
+
+            while (rs.next()){
+                Tablou tablou = new Tablou();
+                tablou.setID_exponat(rs.getInt("ID_exponat"));
+                tablou.setDenumire(rs.getString("denumire"));
+                tablou.setAn(rs.getInt("an"));
+                tablou.setStil(rs.getString("stil"));
+                tablou.setTehnica(rs.getString("tehnica"));
+                tablou.setDescriere(rs.getString("descriere"));
+                tablou.setID_galerie(rs.getInt("ID_galerie"));
+                tablouri.add(tablou);
             }
+            rs.close();
+
+            return tablouri;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return  Collections.emptyList();
         }
     }
 
     @Override
-    public void deleteTablouById(int index) {
+    public void update(Tablou obj) {
+        this.tablouri.set(obj.getID_exponat(), obj);
+        try{
+            String update = "UPDATE tablou SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", stil = '" + obj.getStil() +
+                    "', tehnica = '" + obj.getTehnica() + "', descriere = '" + obj.getDescriere() + "', ID_galerie = " + obj.getID_galerie() +
+                    " WHERE ID_exponat = " + obj.getID_exponat();
+
+            connection.getS().execute(update);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int index) {
         for (int i = 0; i < this.tablouri.size(); i++) {
             if (this.tablouri.get(i).getID_exponat() == index) {
                 this.tablouri.remove(i);
                 break;
             }
         }
-    }
-
-    @Override
-    public void deleteTablou(Tablou tablou) {
-        this.tablouri.remove(tablou);
+        try{
+            connection.getS().execute("DELETE FROM tablou WHERE ID_exponat = " + index);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

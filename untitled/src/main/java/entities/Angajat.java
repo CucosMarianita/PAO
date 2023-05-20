@@ -12,9 +12,11 @@ public class Angajat extends User {
     private String telefon;
     private int cod_ang;
     private int ID_ang;
-    private final LocalDate startDate = LocalDate.now();
+    private LocalDate startDate;
 
-    public Angajat(){}
+    public Angajat(){
+        startDate =  LocalDate.now();
+    }
 
     public Angajat(String nume, String prenume, String CNP, int salariu, String departament, String telefon, int cod_ang, int ID_ang) {
         super(nume, prenume);
@@ -24,6 +26,7 @@ public class Angajat extends User {
         this.telefon = telefon;
         this.cod_ang = cod_ang;
         this.ID_ang = ID_ang;
+        this.startDate = LocalDate.now();
     }
 
     public String getCNP() {
@@ -76,6 +79,10 @@ public class Angajat extends User {
 
     public LocalDate getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
     @Override

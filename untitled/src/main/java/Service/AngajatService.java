@@ -1,21 +1,27 @@
 package Service;
 
 import Interfaces.AngajatInterface;
+import Service.Persistence.CRUD_Template;
+import Service.Persistence.Conn;
 import entities.Angajat;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 
-public class AngajatService implements AngajatInterface {
+public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> {
 
     private List<Angajat> angajati = new ArrayList<>();
+    private Conn connection;
     private static AngajatService instance;
 
 
-// pentru etapa 2 (citire din db)
-//    private AngajatService(){
-//        angajati = read();
-//    }
+    private AngajatService(){
+        connection = new Conn();
+        angajati = findAll();    // (citire din db)
+    }
 
     public static AngajatService getInstance(){
         if(instance == null){
@@ -95,6 +101,17 @@ public class AngajatService implements AngajatInterface {
             }
         }
 
+        System.out.println("Data angajarii: ");
+        while (true) {
+            try {
+                angajat.setStartDate(LocalDate.parse(scanner.nextLine()));
+                break;
+
+            } catch (Exception e) {
+                System.out.println("Data trebuie sa fie de forma: yyyy-mm-dd");
+            }
+        }
+
 
         System.out.println("Cod angajat: ");
         boolean cauta = true;
@@ -128,6 +145,7 @@ public class AngajatService implements AngajatInterface {
         return ghizi;
     }
 
+
     @Override
     public List<Angajat> getAngajati() {
         List<Angajat> angajatiCopy = new ArrayList<>();
@@ -145,6 +163,7 @@ public class AngajatService implements AngajatInterface {
         return angajatiCopy;
     }
 
+
     @Override
     public Angajat getAngajatById(int index) {
         Angajat angajat = new Angajat();
@@ -158,39 +177,78 @@ public class AngajatService implements AngajatInterface {
 
 
     @Override
-    public void addAngajat(Angajat angajat) {
-        this.angajati.add(angajat);
+    public void add(Angajat obj) throws SQLException {
+        this.angajati.add(obj);
+
+
+        String insert = "INSERT INTO angajat (ID_ang, nume, prenume, CNP, departament, salariu, telefon, cod_ang, startDate )" +
+                    " VALUES (" + obj.getID_ang() + ", " + obj.getNume() + ", " + obj.getPrenume() + ", " + obj.getCNP() + ", " + obj.getDepartament() + ", " + obj.getSalariu() + ", " + obj.getTelefon() + ", " + obj.getCod_ang() + ", " + obj.getStartDate() + ")";
+
+        connection.getS().execute(insert);
+
+    }
+
+    public List<Angajat> findAll() {
+        try{
+           String select = "SELECT * FROM angajat";
+           ResultSet rs = connection.getS().executeQuery(select);
+
+           List<Angajat> angajati = new ArrayList<>();
+
+           while (rs.next()) {
+               Angajat angajat = new Angajat();
+               angajat.setID_ang(rs.getInt("ID_ang"));
+               angajat.setNume(rs.getString("nume"));
+               angajat.setPrenume(rs.getString("prenume"));
+               angajat.setCNP(rs.getString("CNP"));
+               angajat.setDepartament(rs.getString("departament"));
+               angajat.setSalariu(rs.getInt("salariu"));
+               angajat.setTelefon(rs.getString("telefon"));
+               angajat.setCod_ang(rs.getInt("cod_ang"));
+               angajat.setStartDate(rs.getDate("startDate").toLocalDate());
+
+               angajati.add(angajat);
+           }
+           rs.close();
+
+           return angajati;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     @Override
-    public void updateAngajat(int index, Angajat angajat) {
+    public void update(Angajat obj) {
+        this.angajati.set(obj.getID_ang(), obj);
+        try{
+            connection.getS().execute("update angajat set nume = " + obj.getNume() + ", prenume = " + obj.getPrenume() + ", CNP = " + obj.getCNP() +
+                    ", departament = " + obj.getDepartament() + ", salariu = " + obj.getSalariu() + ", telefon = " + obj.getTelefon()
+                    + ", cod_ang = " + obj.getCod_ang() + ", startDate = " + obj.getStartDate() + " where ID_ang = " + obj.getID_ang() );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void delete(int index) {
         for(int i = 0; i < this.angajati.size(); i++){
             if(this.angajati.get(i).getID_ang() == index){
                 this.angajati.remove(i);
-                this.angajati.add(i, angajat);
                 break;
             }
         }
+        try{
+            connection.getS().execute("delete from angajat where ID_ang = " + index );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    @Override
-    public void deleteAngajatById(int index) {
-        for(int i = 0; i < this.angajati.size(); i++){
-            if(this.angajati.get(i).getID_ang() == index){
-                this.angajati.remove(i);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void deleteAngajat(Angajat angajat) {
-        for(int i = 0; i < this.angajati.size(); i++){
-            if(this.angajati.get(i).equals(angajat)){
-                this.angajati.remove(i);
-                break;
-            }
-        }
-    }
 }
 

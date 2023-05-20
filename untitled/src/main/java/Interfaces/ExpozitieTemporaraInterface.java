@@ -14,15 +14,6 @@ public interface ExpozitieTemporaraInterface {
     public ExpozitieTemporara getExpozitieTempById(int index);
 
 
-    // CRUD
-    public void addExpozitieTemp(ExpozitieTemporara expozitieTemp);
-
-    public void updateExpozitieTemp(int index, ExpozitieTemporara expozitieTemp);
-
-    public void deleteExpozitieTempById(int index);
-
-    public void deleteExpozitieTemp(ExpozitieTemporara expozitieTemp);
-
 }
 
 

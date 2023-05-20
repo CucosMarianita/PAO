@@ -14,13 +14,5 @@ public interface TablouInterface {
     public Tablou getTablouById(int index);
 
 
-    // CRUD
-    public void addTablou(Tablou tablou);
-
-    public void updateTablou(int index, Tablou tablou);
-
-    public void deleteTablouById(int index);
-
-    public void deleteTablou(Tablou tablou);
 
 }

@@ -14,12 +14,4 @@ public interface RelicvaInterface {
     public Relicva getRelicvaById(int index);
 
 
-    // CRUD
-    public void addRelicva(Relicva relicva);
-
-    public void updateRelicva(int index, Relicva relicva);
-
-    public void deleteRelicvaById(int index);
-
-    public void deleteRelicva(Relicva relicva);
 }

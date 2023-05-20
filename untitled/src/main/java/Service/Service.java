@@ -2,6 +2,7 @@ package Service;
 
 import entities.*;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class Service {
         System.out.println(" 0 - Exit");
     }
 
-    public void meniu() throws IOException {
+    public void meniu() throws IOException, SQLException {
         while (true) {
             printUserMenu();
             int option;
@@ -78,7 +79,7 @@ public class Service {
 
     }
 
-    public void meniuVizitator() {
+    public void meniuVizitator() throws SQLException {
         while (true) {
             printMeniuVizitator();
             int option;
@@ -102,7 +103,7 @@ public class Service {
                 audit_service.audit("Rezervare bilet de catre vizitator" , timeStamp);
 
                 Bilet achizitie = service_bilet.readBilet();
-                service_bilet.addBilet(achizitie);
+                service_bilet.add(achizitie);
 
             } else if (option == 2) {
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -141,7 +142,7 @@ public class Service {
         System.out.println(" 0 - Exit");
     }
 
-    public void meniuAngajat() {
+    public void meniuAngajat() throws SQLException {
         while (true) {
             printMeniuAngajat();
             int option;
@@ -192,7 +193,7 @@ public class Service {
         }
     }
 
-    public void meniuAdmin() {
+    public void meniuAdmin() throws SQLException {
         while (true) {
             // print Meniu Admin
             System.out.println();
@@ -237,7 +238,7 @@ public class Service {
         }
     }
 
-    public void Meniu_exponate(){
+    public void Meniu_exponate() throws SQLException {
         while (true) {
             System.out.println();
             System.out.println("Ce exponate doriti sa modificati?");
@@ -282,7 +283,7 @@ public class Service {
         System.out.println(" 0 - Exit");
     }
 
-    public void CRUD_Angajati() {
+    public void CRUD_Angajati() throws SQLException {
         while (true) {
             printOptions();
             int option;
@@ -350,7 +351,7 @@ public class Service {
                 audit_service.audit("Adaugare Angajat" , timeStamp);
 
                 Angajat angajat = service_angajat.readAngajat();
-                service_angajat.addAngajat(angajat);
+                service_angajat.add(angajat);
 
             } else if (option == 4) {  // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -381,7 +382,7 @@ public class Service {
                 if (ok) {
                     Angajat angajat = service_angajat.readAngajat();
                     angajat.setID_ang(index);
-                    service_angajat.updateAngajat(index, angajat);
+                    service_angajat.update(angajat);
                 } else {
                     System.out.println("Nu exista angajati cu acest id");
                 }
@@ -392,7 +393,7 @@ public class Service {
 
                 int index;
                 while (true) {
-                    System.out.println("Introduceti id-ul biletului: ");
+                    System.out.println("Introduceti id-ul angajatului: ");
                     String line = scanner.nextLine();
                     try {
                         index = Integer.parseInt(line);
@@ -412,7 +413,7 @@ public class Service {
                     }
                 }
                 if (ok) {
-                    service_angajat.deleteAngajatById(index);
+                    service_angajat.delete(index);
                 } else {
                     System.out.println("Nu exista angajati cu acest id");
                 }
@@ -423,7 +424,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Bilete() {
+    public void CRUD_Bilete() throws SQLException {
         while (true) {
             printOptions();
             int option;
@@ -488,7 +489,7 @@ public class Service {
                 audit_service.audit("Adaugare Bilet" , timeStamp);
 
                 Bilet bilet = service_tip_bilet.readBilet();
-                service_tip_bilet.addBilet(bilet);
+                service_tip_bilet.add(bilet);
 
             } else if (option == 4) {  // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -519,7 +520,7 @@ public class Service {
                 if (ok) {
                     Bilet bilet = service_tip_bilet.readBilet();
                     bilet.setID_bilet(index);
-                    service_tip_bilet.updateBilet(index, bilet);
+                    service_tip_bilet.update(bilet);
                 } else {
                     System.out.println("Nu exista bilete cu acest id");
                 }
@@ -550,7 +551,7 @@ public class Service {
                     }
                 }
                 if (ok) {
-                    service_tip_bilet.deleteBiletById(index);
+                    service_tip_bilet.delete(index);
                 } else {
                     System.out.println("Nu exista bilete cu acest id");
                 }
@@ -561,7 +562,7 @@ public class Service {
 
     }
 
-    public void CRUD_Tururi() {
+    public void CRUD_Tururi() throws SQLException {
         while (true) {
             printOptions();
             int option;
@@ -626,7 +627,7 @@ public class Service {
                 audit_service.audit("Adaugare Tur" , timeStamp);
 
                 Tur tur = service_tur.readTur();
-                service_tur.addTur(tur);
+                service_tur.add(tur);
 
             } else if (option == 4) {  // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -657,7 +658,7 @@ public class Service {
                 if (ok) {
                     Tur tur = service_tur.readTur();
                     tur.setID_tur(index);
-                    service_tur.updateTur(index, tur);
+                    service_tur.update(tur);
                 } else {
                     System.out.println("Nu exista tururi cu acest id");
                 }
@@ -688,7 +689,7 @@ public class Service {
                     }
                 }
                 if (ok) {
-                    service_tur.deleteTurById(index);
+                    service_tur.delete(index);
                 } else {
                     System.out.println("Nu exista tururi cu acest id");
                 }
@@ -698,7 +699,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Expozitii(){
+    public void CRUD_Expozitii() throws SQLException {
         while (true) {
             printOptions();
             int option;
@@ -765,7 +766,7 @@ public class Service {
                 audit_service.audit("Adaugare Expozitie" , timeStamp);
 
                 Expozitie expozitie = service_expozitie.readExpozitie();
-                service_expozitie.addExpozitie(expozitie);
+                service_expozitie.add(expozitie);
 
             } else if (option == 4) {  // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -796,7 +797,7 @@ public class Service {
                 if (ok) {
                     Expozitie expozitie = service_expozitie.readExpozitie();
                     expozitie.setID_expozitie(index);
-                    service_expozitie.updateExpozitie(index, expozitie);
+                    service_expozitie.update(expozitie);
                 } else {
                     System.out.println("Nu exista expozitii cu acest id");
                 }
@@ -828,7 +829,7 @@ public class Service {
                     }
                 }
                 if (ok) {
-                    service_expozitie.deleteExpozitieById(index);
+                    service_expozitie.delete(index);
                 } else {
                     System.out.println("Nu exista expozitii cu acest id");
                 }
@@ -838,7 +839,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Galerii(){
+    public void CRUD_Galerii() throws SQLException {
         while (true) {
             printOptions();
             int option;
@@ -905,7 +906,7 @@ public class Service {
                 audit_service.audit("Adaugare Galerie", timeStamp);
 
                 Galerie galerie = service_galerie.readGalerie();
-                service_galerie.addGalerie(galerie);
+                service_galerie.add(galerie);
 
             } else if (option == 4){  // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -936,7 +937,7 @@ public class Service {
                 if (ok) {
                     Galerie galerie = service_galerie.readGalerie();
                     galerie.setID_galerie(index);
-                    service_galerie.updateGalerie(index, galerie);
+                    service_galerie.update(galerie);
                 } else {
                     System.out.println("Nu exista galerii cu acest id");
                 }
@@ -967,7 +968,7 @@ public class Service {
                     }
                 }
                 if (ok) {
-                    service_galerie.deleteGalerieById(index);
+                    service_galerie.delete(index);
                 } else {
                     System.out.println("Nu exista galerii cu acest id");
                 }
@@ -977,7 +978,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Tablouri(){
+    public void CRUD_Tablouri() throws SQLException {
         while(true){
             printOptions();
             int option;
@@ -1043,7 +1044,7 @@ public class Service {
                 audit_service.audit("Adaugare Tablou", timeStamp);
 
                 Tablou tablou = service_tablou.readTablou();
-                service_tablou.addTablou(tablou);
+                service_tablou.add(tablou);
 
             } else if (option == 4){   // update
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -1074,7 +1075,7 @@ public class Service {
                 if (ok){
                     Tablou tablou = service_tablou.readTablou();
                     tablou.setID_exponat(index);
-                    service_tablou.updateTablou(index, tablou);
+                    service_tablou.update(tablou);
                 } else {
                     System.out.println("Nu exista tablouri cu acest id");
                 }
@@ -1106,7 +1107,7 @@ public class Service {
                     }
                 }
                 if (ok){
-                    service_tablou.deleteTablouById(index);
+                    service_tablou.delete(index);
                 } else {
                     System.out.println("Nu exista tablouri cu acest id");
                 }
@@ -1116,7 +1117,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Sculpturi(){
+    public void CRUD_Sculpturi() throws SQLException {
         while (true){
             printOptions();
             int option;
@@ -1184,7 +1185,7 @@ public class Service {
                 audit_service.audit("Adaugare Sculptura", timeStamp);
 
                 Sculptura sculptura = service_sculptura.readSculptura();
-                service_sculptura.addSculptura(sculptura);
+                service_sculptura.add(sculptura);
             }
             else if (option == 4){
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -1215,7 +1216,7 @@ public class Service {
                 if (ok){
                     Sculptura sculptura = service_sculptura.readSculptura();
                     sculptura.setID_exponat(index);
-                    service_sculptura.updateSculptura(index, sculptura);
+                    service_sculptura.update(sculptura);
                 } else {
                     System.out.println("Nu exista sculpturi cu acest id");
                 }
@@ -1247,7 +1248,7 @@ public class Service {
                     }
                 }
                 if (ok){
-                    service_sculptura.deleteSculpturaById(index);
+                    service_sculptura.delete(index);
                 } else {
                     System.out.println("Nu exista sculpturi cu acest id");
                 }
@@ -1257,7 +1258,7 @@ public class Service {
         }
     }
 
-    public void CRUD_Relicve(){
+    public void CRUD_Relicve() throws SQLException {
         while(true){
             printOptions();
             int option;
@@ -1325,7 +1326,7 @@ public class Service {
                 audit_service.audit("Adaugare Relicva", timeStamp);
 
                 Relicva relicva = service_relicva.readRelicva();
-                service_relicva.addRelicva(relicva);
+                service_relicva.add(relicva);
 
             }else if (option == 4){
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -1356,7 +1357,7 @@ public class Service {
                 if (ok){
                     Relicva relicva = service_relicva.readRelicva();
                     relicva.setID_exponat(index);
-                    service_relicva.updateRelicva(index, relicva);
+                    service_relicva.update(relicva);
                 } else {
                     System.out.println("Nu exista relicve cu acest id");
                 }
@@ -1388,7 +1389,7 @@ public class Service {
                     }
                 }
                 if (ok){
-                    service_relicva.deleteRelicvaById(index);
+                    service_relicva.delete(index);
                 } else {
                     System.out.println("Nu exista relicve cu acest id");
                 }

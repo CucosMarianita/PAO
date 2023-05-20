@@ -7,7 +7,8 @@ import java.io.IOException;
 public interface AuditInterface {
 
     default void audit(String actiune, String timestamp) {
-        String path = "src/main/java/CSV_files/audit.csv";
+//        String path = "src/main/java/CSV_files/audit.csv";
+        String path = "C:/Users/Lenovo/#My_PC/FACULTATE/ANUL_2/SEMESTRUL_2/Programare Avansata pe Obiecte/Proiect_PAO/PAO/untitled/src/main/java/CSV_files/audit.csv";
         try {
             File csvAudit = new File(path);
             FileWriter writer = new FileWriter(path, true);

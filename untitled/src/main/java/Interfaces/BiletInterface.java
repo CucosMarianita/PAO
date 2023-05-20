@@ -15,12 +15,4 @@ public interface BiletInterface {
     public Bilet getBiletById(int index);
 
 
-    // CRUD
-    public void addBilet(Bilet bilet);
-
-    public void updateBilet(int index, Bilet bilet);
-
-    public void deleteBiletById(int index);
-
-    public void deleteBilet(Bilet bilet);
 }

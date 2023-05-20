@@ -1,15 +1,24 @@
 package Service;
 
 import Interfaces.ExpozitieTemporaraInterface;
+import Service.Persistence.CRUD_Template;
+import Service.Persistence.Conn;
 import entities.ExpozitieTemporara;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-public class ExpozTemporaraService implements ExpozitieTemporaraInterface {
+public class ExpozTemporaraService implements ExpozitieTemporaraInterface, CRUD_Template<ExpozitieTemporara> {
 
     private List<ExpozitieTemporara> expozitiiTemporare;
+    private Conn connection;
     private static ExpozTemporaraService instance;
 
+    private ExpozTemporaraService(){
+        connection = new Conn();
+        expozitiiTemporare = findAll();    // (citire din db)
+    }
 
     public static ExpozTemporaraService getInstance(){
         if(instance == null){
@@ -82,34 +91,68 @@ public class ExpozTemporaraService implements ExpozitieTemporaraInterface {
         return expozTemp;
     }
 
+
     @Override
-    public void addExpozitieTemp(ExpozitieTemporara expozitieTemp) {
-        this.expozitiiTemporare.add(expozitieTemp);
+    public void add(ExpozitieTemporara obj) throws SQLException {
+        this.expozitiiTemporare.add(obj);
+        String sql = "INSERT INTO expozitie_temporara (ID_expozitie, perioada, descriere, ID_tur)" +
+                "VALUES (" + obj.getID_expozitie() + ", '" + obj.getPerioada() + "', '" + obj.getDescriere() + "', " + obj.getID_tur() + ")";
+        connection.getS().execute(sql);
+
     }
 
     @Override
-    public void updateExpozitieTemp(int index, ExpozitieTemporara expozitieTemp) {
-        for(int i = 0; i < this.expozitiiTemporare.size(); ++i){
-            if(this.expozitiiTemporare.get(i).getID_expozitie() == index){
-                this.expozitiiTemporare.remove(i);
-                this.expozitiiTemporare.add(i, expozitieTemp);
-                break;
+    public List<ExpozitieTemporara> findAll() {
+        try{
+            String select = "SELECT * FROM expozitie_temporara";
+            ResultSet rs = connection.getS().executeQuery(select);
+
+            List<ExpozitieTemporara> expozitiiTemporare = new ArrayList<>();
+
+            while(rs.next()){
+                ExpozitieTemporara expozitieTemporara = new ExpozitieTemporara();
+                expozitieTemporara.setID_expozitie(rs.getInt("ID_expozitie"));
+                expozitieTemporara.setPerioada(rs.getString("perioada"));
+                expozitieTemporara.setDescriere(rs.getString("descriere"));
+                expozitieTemporara.setID_tur(rs.getInt("ID_tur"));
+                expozitiiTemporare.add(expozitieTemporara);
             }
+            rs.close();
+
+            return expozitiiTemporare;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public void deleteExpozitieTempById(int index) {
+    public void update(ExpozitieTemporara obj) {
+        this.expozitiiTemporare.set(obj.getID_expozitie(), obj);
+        try{
+            connection.getS().execute("UPDATE expozitie_temporara SET perioada = '" + obj.getPerioada() + "', descriere = '" + obj.getDescriere() +
+                                    "', ID_tur = " + obj.getID_tur() +
+                                    " WHERE ID_expozitie = " + obj.getID_expozitie() );
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int index) {
         for(int i = 0; i < this.expozitiiTemporare.size(); ++i){
             if(this.expozitiiTemporare.get(i).getID_expozitie() == index){
                 this.expozitiiTemporare.remove(i);
                 break;
             }
         }
-    }
-
-    @Override
-    public void deleteExpozitieTemp(ExpozitieTemporara expozitieTemp) {
-        this.expozitiiTemporare.remove(expozitieTemp);
+        try{
+            connection.getS().execute("DELETE FROM expozitie_temporara WHERE ID_expozitie = " + index);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
