@@ -135,8 +135,7 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
     @Override
     public void add(Bilet obj) throws SQLException {
         this.tip_bilete_existente.add(obj);
-        String sql = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) VALUES ("+ obj.getID_bilet() + ", " + obj.getTip() + ", " +
-                obj.getPret() + ", " + obj.isAchitat() + ", " + obj.getDescriere() + ", " + obj.getData_achizitie() + ", " + obj.getID_expozitie() + ")";
+        String sql = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) VALUES ("+ obj.getID_bilet() + ", '" + obj.getTip() + "', " + obj.getPret() + ", " + obj.isAchitat() + ", '" + obj.getDescriere() + "', '" + obj.getData_achizitie() + "', " + obj.getID_expozitie() + ")";
         connection.getS().executeUpdate(sql);
     }
 
@@ -171,9 +170,9 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
     public void update(Bilet obj) {
         this.tip_bilete_existente.set(obj.getID_bilet(), obj);
         try{
-            String update = "UPDATE bilet SET tip = " + obj.getTip() + ", pret = " + obj.getPret() + ", achitat = " + obj.isAchitat() + ", descriere = " + obj.getDescriere() +
-                    ", data_achizitie = " + obj.getData_achizitie() + ", ID_expozitie = " + obj.getID_expozitie() +
-                    " WHERE ID_bilet = " + obj.getID_bilet();
+            String update = "UPDATE bilet SET tip = '" + obj.getTip() + "', pret = " + obj.getPret() + ", achitat = " + obj.isAchitat()
+                    + ", descriere = '" + obj.getDescriere() + "', data_achizitie = '" + obj.getData_achizitie() + "', ID_expozitie = " + obj.getID_expozitie()
+                    + " WHERE ID_bilet = " + obj.getID_bilet();
             connection.getS().execute(update);
 
         }catch (SQLException e){

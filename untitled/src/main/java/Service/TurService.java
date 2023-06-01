@@ -87,7 +87,7 @@ public class TurService implements TurInterface, CRUD_Template<Tur> {
     @Override
     public void add(Tur obj) throws SQLException {
         this.tururi.add(obj);
-        connection.getS().execute("INSERT INTO tur (ID_tur, durata, descriere, ID_ghid) VALUES (" + obj.getID_tur() + ", " + obj.getDurata() + ", " + obj.getDescriere() + ", " + obj.getID_ghid() + ")");
+        connection.getS().execute("INSERT INTO tur (ID_tur, durata, descriere, ID_ghid) VALUES (" + obj.getID_tur() + ", '" + obj.getDurata() + "', '" + obj.getDescriere() + "', " + obj.getID_ghid() + ")");
     }
 
     @Override
@@ -117,10 +117,9 @@ public class TurService implements TurInterface, CRUD_Template<Tur> {
 
     @Override
     public void update(Tur obj) {
-        this.tururi.set(obj.getID_tur(), obj);
+        this.tururi.set(obj.getID_tur()-1, obj);
         try{
-            connection.getS().execute("UPDATE tur SET durata = " + obj.getDurata() + ", descriere = " + obj.getDescriere() + ", ID_ghid = " + obj.getID_ghid() +
-                                    " WHERE ID_tur = " + obj.getID_tur());
+            connection.getS().execute("UPDATE tur SET durata = '" + obj.getDurata() + "', descriere = '" + obj.getDescriere() + "', ID_ghid = " + obj.getID_ghid() + " WHERE ID_tur = " + obj.getID_tur());
         }
         catch (SQLException e){
             e.printStackTrace();

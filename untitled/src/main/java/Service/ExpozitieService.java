@@ -115,7 +115,7 @@ public class ExpozitieService implements ExpozitieInterface, CRUD_Template<Expoz
     public void add(Expozitie obj) throws SQLException {
         this.expozitii.add(obj);
 
-        String insert = "INSERT INTO expozitie (ID_expozitie, descriere, ID_tur) VALUES (" + obj.getID_expozitie() + ", " + obj.getDescriere() + ", " + obj.getID_tur() + ")";
+        String insert = "INSERT INTO expozitie (ID_expozitie, descriere, ID_tur) VALUES (" + obj.getID_expozitie() + ", '" + obj.getDescriere() + "', " + obj.getID_tur() + ")";
         connection.getS().execute(insert);
     }
 

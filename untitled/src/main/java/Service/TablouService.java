@@ -116,8 +116,7 @@ public class TablouService implements TablouInterface, CRUD_Template<Tablou> {
     public void add(Tablou obj) throws SQLException {
         this.tablouri.add(obj);
 
-        String sql = "INSERT INTO tablou (ID_exponat, denumire, an, stil, tehnica, descriere, ID_galerie) VALUES (" + obj.getID_exponat() + ", " + obj.getDenumire() + ", "
-                + obj.getAn() + ", " + obj.getStil() + ", " + obj.getTehnica() + ", " + obj.getDescriere() + ", " + obj.getID_galerie() + ")";
+        String sql = "INSERT INTO tablou (ID_exponat, denumire, an, stil, tehnica, descriere, ID_galerie) VALUES (" + obj.getID_exponat() + ", '" + obj.getDenumire() + "', " + obj.getAn() + ", '" + obj.getStil() + "', '" + obj.getTehnica() + "', '" + obj.getDescriere() + "', " + obj.getID_galerie() + ")";
 
         connection.getS().execute(sql);
     }

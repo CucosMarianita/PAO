@@ -61,6 +61,7 @@ public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> 
             String cnp = scanner.nextLine();
             try {
                 Integer.parseInt(cnp);
+//                break;
             } catch (NumberFormatException e) {
                 System.out.println("CNP-ul trebuie sa contina doar cifre!");
             }
@@ -101,7 +102,7 @@ public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> 
             }
         }
 
-        System.out.println("Data angajarii: ");
+        System.out.println("Data angajarii(yyyy-mm-dd): ");
         while (true) {
             try {
                 angajat.setStartDate(LocalDate.parse(scanner.nextLine()));
@@ -182,7 +183,7 @@ public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> 
 
 
         String insert = "INSERT INTO angajat (ID_ang, nume, prenume, CNP, departament, salariu, telefon, cod_ang, startDate )" +
-                    " VALUES (" + obj.getID_ang() + ", " + obj.getNume() + ", " + obj.getPrenume() + ", " + obj.getCNP() + ", " + obj.getDepartament() + ", " + obj.getSalariu() + ", " + obj.getTelefon() + ", " + obj.getCod_ang() + ", " + obj.getStartDate() + ")";
+                    " VALUES (" + obj.getID_ang() + ", '" + obj.getNume() + "', '" + obj.getPrenume() + "', '" + obj.getCNP() + "', '" + obj.getDepartament() + "', " + obj.getSalariu() + ", '" + obj.getTelefon() + "', " + obj.getCod_ang() + ", '" + obj.getStartDate() + "')";
 
         connection.getS().execute(insert);
 

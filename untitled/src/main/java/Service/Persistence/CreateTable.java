@@ -85,7 +85,7 @@ public class CreateTable {
 
             try {
 
-                connection.s.execute("BEGIN\n" +
+                connection.getS().execute("BEGIN\n" +
                         "    EXECUTE IMMEDIATE 'DROP TABLE ANGAJAT CASCADE CONSTRAINTS';\n" +
                         "EXCEPTION\n" +
                         "    WHEN OTHERS THEN\n" +
@@ -93,34 +93,34 @@ public class CreateTable {
                         "            RAISE;\n" +
                         "        END IF;\n" +
                         "END;\n" );
-                connection.s.execute(createAngajat);
+                connection.getS().execute(createAngajat);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE TUR CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createTur);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE TUR CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createTur);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE EXPOZITIE CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createExpozitie);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE EXPOZITIE CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createExpozitie);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE EXPOZITIE_TEMPORARA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createExpozitieTemporara);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE EXPOZITIE_TEMPORARA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createExpozitieTemporara);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE BILET CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createBilet);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE BILET CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createBilet);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE GALERIE CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createGalerie);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE GALERIE CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createGalerie);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE MUZEU CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createMuzeu);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE MUZEU CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createMuzeu);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE RELICVA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createRelicva);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE RELICVA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createRelicva);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE SCULPTURA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
-                connection.s.execute(createSculptura);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE SCULPTURA CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createSculptura);
 
-                connection.s.execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE TABLOU CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n");
-                connection.s.execute(createTablou);
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE TABLOU CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n");
+                connection.getS().execute(createTablou);
 
                 System.out.println("Table created successfully");
 
@@ -128,7 +128,7 @@ public class CreateTable {
                 e.printStackTrace();
             }
 
-            connection.c.close();
+            connection.getS().close();
 
         } catch (Exception e) {
             e.printStackTrace();

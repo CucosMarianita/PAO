@@ -115,8 +115,7 @@ public class SculpturaService implements SculpturaInterface, CRUD_Template<Sculp
     public void add(Sculptura obj) throws SQLException {
         this.sculpturi.add(obj);
         connection.getS().execute("INSERT INTO sculptura(ID_exponat, denumire, an, stil, material, descriere, ID_galerie) VALUES "+
-                        "(" + obj.getID_exponat() + ", " + obj.getDenumire() + ", " + obj.getAn() + ", " + obj.getStil() + ", " + obj.getMaterial() + ", " + obj.getDescriere() + ", " + obj.getID_galerie() + ")");
-
+                        "(" + obj.getID_exponat() + ", '" + obj.getDenumire() + "', " + obj.getAn() + ", '" + obj.getStil() + "', '" + obj.getMaterial() + "', '" + obj.getDescriere() + "', " + obj.getID_galerie() + ")");
     }
 
     @Override
@@ -151,8 +150,9 @@ public class SculpturaService implements SculpturaInterface, CRUD_Template<Sculp
     public void update(Sculptura obj) {
         this.sculpturi.set(obj.getID_exponat(), obj);
         try{
-            connection.getS().execute("UPDATE sculptura SET denumire = " + obj.getDenumire() + ", an = " + obj.getAn() + ", stil = " + obj.getStil() + ", material = " + obj.getMaterial() + ", descriere = " + obj.getDescriere() + ", ID_galerie = " + obj.getID_galerie() +
-                                " WHERE ID_exponat = " + obj.getID_exponat());
+            connection.getS().execute("UPDATE sculptura SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", stil = '"
+                    + obj.getStil() + "', material = '" + obj.getMaterial() + "', descriere = '" + obj.getDescriere() + "', ID_galerie = " + obj.getID_galerie()
+                    + " WHERE ID_exponat = " + obj.getID_exponat());
         }
         catch (SQLException e){
             e.printStackTrace();

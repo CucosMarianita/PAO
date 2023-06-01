@@ -93,8 +93,7 @@ public class GalerieService implements GalerieInterface, CRUD_Template<Galerie> 
     public void add(Galerie obj) throws SQLException {
         this.galerii.add(obj);
         connection.getS().execute("INSERT INTO galerie (ID_galerie, nume, ID_expozitie)"+
-                                " VALUES (" + obj.getID_galerie() + ", " + obj.getNume() + ", " + obj.getID_expozitie() + ")");
-
+                                " VALUES (" + obj.getID_galerie() + ", '" + obj.getNume() + "', " + obj.getID_expozitie() + ")");
     }
 
     @Override
@@ -126,7 +125,7 @@ public class GalerieService implements GalerieInterface, CRUD_Template<Galerie> 
     public void update(Galerie obj) {
         this.galerii.set(obj.getID_galerie(), obj);
         try{
-            String update = "UPDATE galerie SET nume = " + obj.getNume() + ", ID_expozitie = " + obj.getID_expozitie() +
+            String update = "UPDATE galerie SET nume = '" + obj.getNume() + "', ID_expozitie = " + obj.getID_expozitie() +
                     " WHERE ID_galerie = " + obj.getID_galerie();
             connection.getS().execute(update);
 

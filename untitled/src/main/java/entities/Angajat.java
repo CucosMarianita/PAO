@@ -77,8 +77,8 @@ public class Angajat extends User {
     this.ID_ang = ID_ang;
 }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public String getStartDate() {
+        return startDate.toString();
     }
 
     public void setStartDate(LocalDate startDate) {

@@ -146,7 +146,7 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
     public List<Bilet> findAll() {
         try{
             String select = "SELECT * FROM bilet";
-            ResultSet rs = connection.s.executeQuery(select);
+            ResultSet rs = connection.getS().executeQuery(select);
 
             List<Bilet> bilete = new ArrayList<>();
 
@@ -175,15 +175,15 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
         this.bilete.add(obj);
 
         String insert = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) "+
-                "VALUES (" + obj.getID_bilet() + ", "+ obj.getTip() + ", " + obj.getPret() + ", " + obj.isAchitat() + ", " + obj.getDescriere() + ", " + obj.getData_achizitie() + ", " + obj.getID_expozitie() + ")";
-        connection.s.execute(insert);
+                "VALUES (" + obj.getID_bilet() + ", '"+ obj.getTip() + "', " + obj.getPret() + ", " + obj.isAchitat() + ", '" + obj.getDescriere() + "', '" + obj.getData_achizitie() + "', " + obj.getID_expozitie() + ")";
+        connection.getS().execute(insert);
     }
 
     @Override
     public void update(Bilet obj) {
         this.bilete.set(obj.getID_bilet(), obj);
         try{
-            connection.s.execute("UPDATE bilet SET tip = " + obj.getTip() + ", pret = " + obj.getPret() + ", achitat = " + obj.isAchitat() +
+            connection.getS().execute("UPDATE bilet SET tip = " + obj.getTip() + ", pret = " + obj.getPret() + ", achitat = " + obj.isAchitat() +
                                     ", descriere = " + obj.getDescriere() + ", data_achizitie = " + obj.getData_achizitie() + ", ID_expozitie = " + obj.getID_expozitie() +
                                     " WHERE ID_bilet = " + obj.getID_bilet() );
 
@@ -201,7 +201,7 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
             }
         }
         try{
-            connection.s.execute("DELETE FROM bilet WHERE ID_bilet = " + index);
+            connection.getS().execute("DELETE FROM bilet WHERE ID_bilet = " + index);
 
         }catch (SQLException e){
             e.printStackTrace();

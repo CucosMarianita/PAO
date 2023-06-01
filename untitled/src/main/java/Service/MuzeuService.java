@@ -63,7 +63,7 @@ public class MuzeuService implements MuzeuInterface, CRUD_Template<Muzeu> {
             this.muzee.add(obj);
 
             connection.getS().execute("INSERT INTO muzeu (nume, program, locatie, descriere) VALUES "+
-                    "("+ obj.getNume() + ", " + obj.getProgram() + ", " + obj.getLocatie() + ", " + obj.getDescriere() + ")");
+                    "('"+obj.getNume()+"', '"+obj.getProgram()+"', '"+obj.getLocatie()+"', '"+obj.getDescriere()+"')");
 
         }
         else
@@ -98,8 +98,8 @@ public class MuzeuService implements MuzeuInterface, CRUD_Template<Muzeu> {
     public void update(Muzeu obj) {
         this.muzee.set(0, obj);
         try {
-            connection.getS().execute("UPDATE muzeu SET nume = " + obj.getNume() + ", program = " + obj.getProgram() + ", locatie = " + obj.getLocatie() + ", descriere = " + obj.getDescriere() +
-                                " WHERE id = 1");
+            connection.getS().execute("UPDATE muzeu SET nume = '" + obj.getNume() + "', program = '" + obj.getProgram() +
+                    "', locatie = '" + obj.getLocatie() + "', descriere = '" + obj.getDescriere() + "' WHERE id = 1");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -114,8 +114,7 @@ public class RelicvaService implements RelicvaInterface, CRUD_Template<Relicva> 
         this.relicve.add(obj);
 
         connection.getS().execute("INSERT INTO relicva (ID_exponat, denumire, an, locatie, descriere, ID_galerie) "+
-                            "VALUES (" + obj.getID_exponat() + ", "+ obj.getDenumire() + ", " + obj.getAn() + ", " + obj.getLocatie() + ", " + obj.getDescriere() + ", " + obj.getID_galerie() + ")");
-
+                            "VALUES (" + obj.getID_exponat() + ", '"+ obj.getDenumire() + "', " + obj.getAn() + ", '" + obj.getLocatie() + "', '" + obj.getDescriere() + "', " + obj.getID_galerie() + ")");
     }
 
     @Override
@@ -149,9 +148,8 @@ public class RelicvaService implements RelicvaInterface, CRUD_Template<Relicva> 
     public void update(Relicva obj) {
         this.relicve.set(obj.getID_exponat(), obj);
         try{
-            String update = "UPDATE relicva SET denumire = " + obj.getDenumire() + ", an = " + obj.getAn() + ", locatie = " + obj.getLocatie() +
-                    ", descriere = " + obj.getDescriere() + ", ID_galerie = " + obj.getID_galerie() +
-                    " WHERE ID_exponat = " + obj.getID_exponat();
+            String update = "UPDATE relicva SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", locatie = '" + obj.getLocatie() + "', descriere = '" + obj.getDescriere()
+                    + "', ID_galerie = " + obj.getID_galerie() + " WHERE ID_exponat = " + obj.getID_exponat();
             connection.getS().execute(update);
         }
         catch (SQLException e){
