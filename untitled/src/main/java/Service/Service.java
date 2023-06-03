@@ -15,6 +15,7 @@ public class Service {
     private final TipBiletService service_tip_bilet = TipBiletService.getInstance();
     private final TurService service_tur = TurService.getInstance();
     private final ExpozitieService service_expozitie = ExpozitieService.getInstance();
+    private final ExpozTemporaraService service_expozitie_temporara = ExpozTemporaraService.getInstance();
     private final GalerieService service_galerie = GalerieService.getInstance();
     private final TablouService service_tablou = TablouService.getInstance();
     private final SculpturaService service_sculptura = SculpturaService.getInstance();
@@ -127,6 +128,8 @@ public class Service {
                 audit_service.audit("Afisare expozitii" , timeStamp);
 
                 List<Expozitie> exp = service_expozitie.getExpozitii();
+                List<ExpozitieTemporara> exp_temp = service_expozitie_temporara.getExpozitiiTemp();
+                exp.addAll(exp_temp);
                 System.out.println(exp);
 
             } else
@@ -204,6 +207,7 @@ public class Service {
             System.out.println(" 4 - Expozitii");
             System.out.println(" 5 - Galerii");
             System.out.println(" 6 - Exponate");
+            System.out.println(" 7 - Muzeu");
             System.out.println(" 0 - Exit");
 
             int option;
@@ -211,13 +215,13 @@ public class Service {
                 String line = scanner.nextLine();
                 try {
                     option = Integer.parseInt(line);
-                    if (option >= 0 && option <= 6) {
+                    if (option >= 0 && option <= 7) {
                         break;
                     } else {
-                        System.out.println("Introduceti un numar intre 0 si 6");
+                        System.out.println("Introduceti un numar intre 0 si 7");
                     }
                 } catch (Exception e) {
-                    System.out.println("Introduceti un numar intre 0 si 6");
+                    System.out.println("Introduceti un numar intre 0 si 7");
                 }
             }
             if (option == 1) {
@@ -232,6 +236,8 @@ public class Service {
                 CRUD_Galerii();
             } else if (option == 6) {
                 Meniu_exponate();
+            } else if (option == 7) {
+                CRUD_Muzeu();
             } else if (option == 0) {
                 break;
             }
@@ -423,6 +429,76 @@ public class Service {
 
         }
     }
+
+    public void CRUD_Muzeu() throws SQLException {
+        while (true) {
+            System.out.println(" 1 - Afisare muzeu");
+            System.out.println(" 2 - Adaugarare muzeu");
+            System.out.println(" 3 - Editare muzeu");
+            System.out.println(" 4 - Stergere muzeu");
+            System.out.println(" 0 - Exit");
+
+            int option;
+            while (true) {
+                String line = scanner.nextLine();
+                try {
+                    option = Integer.parseInt(line);
+                    if (option >= 0 && option <= 5) {
+                        break;
+                    } else {
+                        System.out.println("Introduceti un numar intre 0 si 4");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Introduceti un numar intre 0 si 4");
+                }
+            }
+            if (option == 1) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Afisare Muzeu", timeStamp);
+
+                if (service_muzeu.findAll().size() == 0) {
+                    System.out.println("Nu exista un muzeu introdus!");
+                } else {
+                    System.out.println(service_muzeu.getMuzeu().toString());
+
+                }
+            } else if (option == 2) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Adaugare Muzeu", timeStamp);
+
+                Muzeu muzeu = service_muzeu.readMuzeu();
+                service_muzeu.add(muzeu);
+            } else if (option == 3) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Editare Muzeu", timeStamp);
+
+
+                if (service_muzeu.findAll().size() == 0) {
+                    System.out.println("Nu exista un muzeu introdus!");
+                } else {
+                    Muzeu muzeu = service_muzeu.readMuzeu();
+                    service_muzeu.update(muzeu);
+                }
+            } else if (option == 4) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String timeStamp = date.format(new Date());
+                audit_service.audit("Stergere Muzeu", timeStamp);
+
+                if (service_muzeu.findAll().size() == 0) {
+                    System.out.println("Nu exista un muzeu introdus!");
+                } else {
+                    service_muzeu.delete(1);
+                }
+            } else if (option == 0) {
+                break;
+            }
+        }
+    }
+
+
 
     public void CRUD_Bilete() throws SQLException {
         while (true) {

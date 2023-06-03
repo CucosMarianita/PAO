@@ -4,6 +4,7 @@ import Service.Persistence.CRUD_Template;
 import Service.Persistence.Conn;
 import entities.Bilet;
 import entities.Expozitie;
+import entities.ExpozitieTemporara;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,12 +68,14 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
             }
         }
 
-        // TO DO : permanente + temporare
 
         System.out.println("Nume expozitie: ");
         // sa verific daca este in lista de expozitii
         ExpozitieService service_expotitii = ExpozitieService.getInstance();
+        ExpozTemporaraService service_expoz_temp = ExpozTemporaraService.getInstance();
         List<Expozitie> expozitii = service_expotitii.getExpozitii();
+        List<ExpozitieTemporara> expozitii_temp = service_expoz_temp.getExpozitiiTemp();
+        expozitii.addAll(expozitii_temp);
         while(true){
             String nume = scanner.nextLine();
             int id_expozitie = 0;
@@ -94,7 +97,7 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
         TipBiletService service_tip_bilete = TipBiletService.getInstance();
         List<Bilet> tip_bilete_existente = service_tip_bilete.getBilete();
         for (Bilet tip : tip_bilete_existente){
-            if(tip.getID_expozitie() == bilet.getID_expozitie() && tip.getTip().equals(bilet.getTip())){
+            if(tip.getID_expozitie() == bilet.getID_expozitie() && tip.getTip().equalsIgnoreCase(bilet.getTip())){
                 bilet.setPret(tip.getPret());
                 bilet.setDescriere(tip.getDescriere());
                 break;
@@ -175,13 +178,13 @@ public class BiletService implements BiletInterface, CRUD_Template<Bilet> {
         this.bilete.add(obj);
 
         String insert = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) "+
-                "VALUES (" + obj.getID_bilet() + ", '"+ obj.getTip() + "', " + obj.getPret() + ", " + obj.isAchitat() + ", '" + obj.getDescriere() + "', '" + obj.getData_achizitie() + "', " + obj.getID_expozitie() + ")";
+                "VALUES (" + obj.getID_bilet() + ", '"+ obj.getTip() + "', " + obj.getPret() + ", '" + obj.isAchitat() + "', '" + obj.getDescriere() + "', '" + obj.getData_achizitie() + "', " + obj.getID_expozitie() + ")";
         connection.getS().execute(insert);
     }
 
     @Override
     public void update(Bilet obj) {
-        this.bilete.set(obj.getID_bilet(), obj);
+        this.bilete.set(obj.getID_bilet()-1, obj);
         try{
             connection.getS().execute("UPDATE bilet SET tip = " + obj.getTip() + ", pret = " + obj.getPret() + ", achitat = " + obj.isAchitat() +
                                     ", descriere = " + obj.getDescriere() + ", data_achizitie = " + obj.getData_achizitie() + ", ID_expozitie = " + obj.getID_expozitie() +

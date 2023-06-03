@@ -121,7 +121,7 @@ public class ExpozitieService implements ExpozitieInterface, CRUD_Template<Expoz
 
     @Override
     public void update(Expozitie obj) {
-        this.expozitii.set(obj.getID_expozitie(), obj);
+        this.expozitii.set(obj.getID_expozitie()-1, obj);
         try{
             connection.getS().execute("UPDATE expozitie SET descriere = '" + obj.getDescriere() + "', ID_tur = " + obj.getID_tur() +
                                     " WHERE ID_expozitie = " + obj.getID_expozitie() );

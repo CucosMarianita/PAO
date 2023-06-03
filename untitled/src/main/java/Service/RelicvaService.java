@@ -146,7 +146,7 @@ public class RelicvaService implements RelicvaInterface, CRUD_Template<Relicva> 
 
     @Override
     public void update(Relicva obj) {
-        this.relicve.set(obj.getID_exponat(), obj);
+        this.relicve.set(obj.getID_exponat()-1, obj);
         try{
             String update = "UPDATE relicva SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", locatie = '" + obj.getLocatie() + "', descriere = '" + obj.getDescriere()
                     + "', ID_galerie = " + obj.getID_galerie() + " WHERE ID_exponat = " + obj.getID_exponat();

@@ -44,6 +44,13 @@ public class CreateTable {
                     "data_achizitie VARCHAR(255) ," +
                     "ID_expozitie INTEGER , FOREIGN KEY (ID_expozitie) REFERENCES EXPOZITIE(ID_expozitie) )";
 
+            String createTipBilet = "CREATE TABLE TIPBILET(" +
+                    "ID_bilet INTEGER , PRIMARY KEY(ID_bilet) ," +
+                    "tip VARCHAR(255) ," +
+                    "pret INTEGER ," +
+                    "descriere VARCHAR(255) ," +
+                    "ID_expozitie INTEGER , FOREIGN KEY (ID_expozitie) REFERENCES EXPOZITIE(ID_expozitie) )";
+
             String createGalerie = "CREATE TABLE GALERIE(" +
                     "ID_galerie INTEGER , PRIMARY KEY(ID_galerie) ," +
                     "nume VARCHAR(255) ," +
@@ -107,6 +114,9 @@ public class CreateTable {
                 connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE BILET CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
                 connection.getS().execute(createBilet);
 
+                connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE TIPBILET CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
+                connection.getS().execute(createTipBilet);
+
                 connection.getS().execute("BEGIN\n" + "    EXECUTE IMMEDIATE 'DROP TABLE GALERIE CASCADE CONSTRAINTS';\n" + "EXCEPTION\n" + "    WHEN OTHERS THEN\n" + "        IF SQLCODE != -942 THEN\n" + "            RAISE;\n" + "        END IF;\n" + "END;\n" );
                 connection.getS().execute(createGalerie);
 
@@ -128,7 +138,7 @@ public class CreateTable {
                 e.printStackTrace();
             }
 
-            connection.getS().close();
+
 
         } catch (Exception e) {
             e.printStackTrace();

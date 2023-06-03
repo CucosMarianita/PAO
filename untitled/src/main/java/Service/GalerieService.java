@@ -123,7 +123,7 @@ public class GalerieService implements GalerieInterface, CRUD_Template<Galerie> 
 
     @Override
     public void update(Galerie obj) {
-        this.galerii.set(obj.getID_galerie(), obj);
+        this.galerii.set(obj.getID_galerie()-1, obj);
         try{
             String update = "UPDATE galerie SET nume = '" + obj.getNume() + "', ID_expozitie = " + obj.getID_expozitie() +
                     " WHERE ID_galerie = " + obj.getID_galerie();

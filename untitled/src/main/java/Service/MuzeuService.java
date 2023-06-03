@@ -98,8 +98,8 @@ public class MuzeuService implements MuzeuInterface, CRUD_Template<Muzeu> {
     public void update(Muzeu obj) {
         this.muzee.set(0, obj);
         try {
-            connection.getS().execute("UPDATE muzeu SET nume = '" + obj.getNume() + "', program = '" + obj.getProgram() +
-                    "', locatie = '" + obj.getLocatie() + "', descriere = '" + obj.getDescriere() + "' WHERE id = 1");
+            delete(1);
+            add(obj);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,9 +107,9 @@ public class MuzeuService implements MuzeuInterface, CRUD_Template<Muzeu> {
 
     @Override
     public void delete(int index) {
-        this.muzee.remove(index);
+        this.muzee.remove(index-1);
         try {
-            connection.getS().execute("DELETE FROM muzeu WHERE id = " + index);
+            connection.getS().execute("DELETE from muzeu ");
         } catch (SQLException e) {
             e.printStackTrace();
         }

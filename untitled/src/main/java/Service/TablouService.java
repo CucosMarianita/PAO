@@ -151,7 +151,7 @@ public class TablouService implements TablouInterface, CRUD_Template<Tablou> {
 
     @Override
     public void update(Tablou obj) {
-        this.tablouri.set(obj.getID_exponat(), obj);
+        this.tablouri.set(obj.getID_exponat()-1, obj);
         try{
             String update = "UPDATE tablou SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", stil = '" + obj.getStil() +
                     "', tehnica = '" + obj.getTehnica() + "', descriere = '" + obj.getDescriere() + "', ID_galerie = " + obj.getID_galerie() +

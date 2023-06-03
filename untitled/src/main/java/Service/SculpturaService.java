@@ -148,7 +148,7 @@ public class SculpturaService implements SculpturaInterface, CRUD_Template<Sculp
 
     @Override
     public void update(Sculptura obj) {
-        this.sculpturi.set(obj.getID_exponat(), obj);
+        this.sculpturi.set(obj.getID_exponat()-1, obj);
         try{
             connection.getS().execute("UPDATE sculptura SET denumire = '" + obj.getDenumire() + "', an = " + obj.getAn() + ", stil = '"
                     + obj.getStil() + "', material = '" + obj.getMaterial() + "', descriere = '" + obj.getDescriere() + "', ID_galerie = " + obj.getID_galerie()

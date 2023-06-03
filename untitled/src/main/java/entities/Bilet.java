@@ -88,9 +88,7 @@ public class Bilet {
         return "Bilet: " + '\n' +
                 "   Tip: " + tip + '\n' +
                 "   Pret: " + pret + '\n' +
-                "   Achitat: " + achitat + '\n' +
                 "   Descriere: " + descriere +'\n' +
-                "   Data achizitie: " + data_achizitie +'\n' +
                 "   *ID_expozitie: " + ID_expozitie +'\n';
     }
 }

@@ -129,7 +129,7 @@ public class ExpozTemporaraService implements ExpozitieTemporaraInterface, CRUD_
 
     @Override
     public void update(ExpozitieTemporara obj) {
-        this.expozitiiTemporare.set(obj.getID_expozitie(), obj);
+        this.expozitiiTemporare.set(obj.getID_expozitie()-1, obj);
         try{
             connection.getS().execute("UPDATE expozitie_temporara SET perioada = '" + obj.getPerioada() + "', descriere = '" + obj.getDescriere() +
                                     "', ID_tur = " + obj.getID_tur() +

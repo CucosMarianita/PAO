@@ -14,6 +14,7 @@ public class TurService implements TurInterface, CRUD_Template<Tur> {
     private List<Tur> tururi = new ArrayList<>();
     private Conn connection;
     private static TurService instance;
+    private final AngajatService service_angajat = AngajatService.getInstance();
 
     private TurService(){
         connection = new Conn();
@@ -54,11 +55,12 @@ public class TurService implements TurInterface, CRUD_Template<Tur> {
 
         System.out.println("ID_ghid: ");
         while (true) {
-            try {
-                tur.setID_ghid(Integer.parseInt(scanner.nextLine()));
+            int id_ghid = scanner.nextInt();
+            if (service_angajat.getAngajatById(id_ghid).getDepartament().toUpperCase().equals("GHID")) {
+                tur.setID_ghid(id_ghid);
                 break;
-            } catch (NumberFormatException e){
-                System.out.println("ID-ul trebuie sa fie un numar!");
+            } else {
+                System.out.println("ID-ul introdus nu este al unui ghid!");
             }
         }
         return tur;

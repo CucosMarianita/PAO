@@ -59,10 +59,9 @@ public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> 
         System.out.println("CNP: ");
         while (true) {
             String cnp = scanner.nextLine();
-            try {
-                Integer.parseInt(cnp);
-//                break;
-            } catch (NumberFormatException e) {
+            try{
+                Long.parseLong(cnp);
+            } catch (NumberFormatException e){
                 System.out.println("CNP-ul trebuie sa contina doar cifre!");
             }
             if (cnp.length() == 13) {
@@ -223,7 +222,7 @@ public class AngajatService implements AngajatInterface, CRUD_Template<Angajat> 
 
     @Override
     public void update(Angajat obj) {
-        this.angajati.set(obj.getID_ang(), obj);
+        this.angajati.set(obj.getID_ang()-1, obj);
         try{
             connection.getS().execute("update angajat set nume = " + obj.getNume() + ", prenume = " + obj.getPrenume() + ", CNP = " + obj.getCNP() +
                     ", departament = " + obj.getDepartament() + ", salariu = " + obj.getSalariu() + ", telefon = " + obj.getTelefon()

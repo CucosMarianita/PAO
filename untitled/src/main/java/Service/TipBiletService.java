@@ -5,6 +5,7 @@ import Service.Persistence.CRUD_Template;
 import Service.Persistence.Conn;
 import entities.Bilet;
 import entities.Expozitie;
+import entities.ExpozitieTemporara;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
         int id = getMaxId_bilete_existente() + 1;
         bilet.setID_bilet(id);
 
-        System.out.println("Tip: ");
+        System.out.println("Tip (copii, elevi, studenti, adulti, pensionari): ");
         bilet.setTip(scanner.nextLine());
 
         System.out.println("Pret: ");
@@ -61,14 +62,15 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
             }
         }
 
-        bilet.setAchitat(false);
-
         System.out.println("Descriere: ");
         bilet.setDescriere(scanner.nextLine());
 
         System.out.println("ID_expozitie: ");
-        ExpozitieService service_expozitii = ExpozitieService.getInstance();
-        List<Expozitie> expozitii = service_expozitii.getExpozitii();
+        ExpozitieService service_expotitii = ExpozitieService.getInstance();
+        ExpozTemporaraService service_expoz_temp = ExpozTemporaraService.getInstance();
+        List<Expozitie> expozitii = service_expotitii.getExpozitii();
+        List<ExpozitieTemporara> expozitii_temp = service_expoz_temp.getExpozitiiTemp();
+        expozitii.addAll(expozitii_temp);
         // verific daca exista id-ul
         while (true) {
             try {
@@ -135,14 +137,14 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
     @Override
     public void add(Bilet obj) throws SQLException {
         this.tip_bilete_existente.add(obj);
-        String sql = "INSERT INTO bilet (ID_bilet, tip, pret, achitat, descriere, data_achizitie, ID_expozitie) VALUES ("+ obj.getID_bilet() + ", '" + obj.getTip() + "', " + obj.getPret() + ", " + obj.isAchitat() + ", '" + obj.getDescriere() + "', '" + obj.getData_achizitie() + "', " + obj.getID_expozitie() + ")";
+        String sql = "INSERT INTO TIPBILET (Id_bilet, tip, pret , descriere, id_expozitie) VALUES (" + obj.getID_bilet() + ", '" + obj.getTip() + "', " + obj.getPret() + ", '" + obj.getDescriere() + "', " + obj.getID_expozitie() + ")";
         connection.getS().executeUpdate(sql);
     }
 
     @Override
     public List<Bilet> findAll() {
         try {
-            String sql = "SELECT * FROM bilet";
+            String sql = "SELECT * FROM tipbilet";
             ResultSet rs = connection.getS().executeQuery(sql);
             List<Bilet> bilete = new ArrayList<>();
 
@@ -151,9 +153,7 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
                 bilet.setID_bilet(rs.getInt("ID_bilet"));
                 bilet.setTip(rs.getString("tip"));
                 bilet.setPret(rs.getInt("pret"));
-                bilet.setAchitat(rs.getBoolean("achitat"));
                 bilet.setDescriere(rs.getString("descriere"));
-                bilet.setData_achizitie(rs.getDate("data_achizitie").toLocalDate());
                 bilet.setID_expozitie(rs.getInt("ID_expozitie"));
                 bilete.add(bilet);
             }
@@ -168,9 +168,9 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
 
     @Override
     public void update(Bilet obj) {
-        this.tip_bilete_existente.set(obj.getID_bilet(), obj);
+        this.tip_bilete_existente.set(obj.getID_bilet()-1, obj);
         try{
-            String update = "UPDATE bilet SET tip = '" + obj.getTip() + "', pret = " + obj.getPret() + ", achitat = " + obj.isAchitat()
+            String update = "UPDATE tipbilet SET tip = '" + obj.getTip() + "', pret = " + obj.getPret() + ", achitat = " + obj.isAchitat()
                     + ", descriere = '" + obj.getDescriere() + "', data_achizitie = '" + obj.getData_achizitie() + "', ID_expozitie = " + obj.getID_expozitie()
                     + " WHERE ID_bilet = " + obj.getID_bilet();
             connection.getS().execute(update);
@@ -189,7 +189,7 @@ public class TipBiletService implements BiletInterface, CRUD_Template<Bilet> {
             }
         }
         try{
-            String delete = "DELETE FROM bilet WHERE ID_bilet = " + index;
+            String delete = "DELETE FROM tipbilet WHERE ID_bilet = " + index;
             connection.getS().execute(delete);
         }
         catch (SQLException e){
